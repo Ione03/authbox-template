@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dropdown Animation</title>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    } */
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-button {
+      /* padding: 10px 20px; */
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      visibility: hidden;
+      z-index: 1000;      
+    }
+
+    .dropdown-menu.active {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .dropdown-menu li {
+      list-style: none;
+      /* padding: 10px 20px; */
+      cursor: pointer;
+    }
+
+    .dropdown-menu li:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="dropdown">
+    <button class="dropdown-button">Menu</button>
+    <ul class="dropdown-menu">
+        <li><i class="fas fa-home icon"></i> Home</li>
+        <li><i class="fas fa-underline icon"></i> Tipography</li>
+        <li><i class="fas fa-boxes icon"></i> Widgets</li>
+        <li><i class="fas fa-table icon"></i> Tables</li>
+    </ul>
+  </div>
+
+  <script>
+    const dropdownButton = document.querySelector('.dropdown-button');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    dropdownButton.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.dropdown')) {
+        dropdownMenu.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

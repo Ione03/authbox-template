@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="inline-dropdown.css">
+    <link rel="stylesheet" href="inline-modal.css">
+</head>
+<body>
+    <div class="hover-dropdown">
+        TEST
+        <span class="hover-text">Hover over me</span>
+        <div class="dropdown-content">
+            <a href="#" class="modal-trigger">
+                <i class="fas fa-home icon"></i> &nbsp;Open Modal
+            </a>
+            <a href="#"><i class="fas fa-home icon"></i> Option 2</a>
+            <a href="#"><i class="fas fa-home icon"></i> Option 3</a>
+        </div>
+    </div>
+
+    <hr>
+    This is some regular text in a paragraph that 
+    <div class="hover-dropdown">
+        <span class="hover-text">has a hover dropdown</span> embedded within it.
+        <div class="dropdown-content">
+            <a href="#"><i class="fas fa-home icon"></i> Learn more</a>
+            <a href="#"><i class="fas fa-home icon"></i> Contact us</a>
+        </div>
+    </div>
+
+    <!-- The modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <span class="modal-close close-btn">&times;</span>
+            <h2>Modal Title</h2>
+            <p>This is a modal window with ESC key support.</p>
+            <div class="modal-footer">
+                <button class="modal-button close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="inline-dropdown.js"></script>
+    <script src="inline-modal.js"></script>
+</body>
+</html>

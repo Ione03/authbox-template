@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flicker-Free Modal Solution</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            /* Always show scrollbar to prevent layout shift */
+            overflow-y: scroll;
+        }
+        
+        /* Prevent background scrolling when modal is open */
+        body.modal-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .card p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        /* Fixed Modal Styles - No Flicker */
+        .modal {
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Use opacity and visibility for transitions */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            /* Prevent flicker with hardware acceleration */
+            transform: translateZ(0);
+            will-change: opacity, visibility;
+        }
+        
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: 5% auto;
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            /* Smooth scaling animation */
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            /* Prevent content flicker */
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+        
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            color: #888;
+            cursor: pointer;
+            z-index: 10;
+            background: none;
+            border: none;
+            outline: none;
+            transition: color 0.2s ease;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .modal-header {
+            margin-bottom: 20px;
+            padding-right: 30px;
+        }
+        
+        .modal-header h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+        }
+        
+        .modal-body {
+            margin-bottom: 25px;
+        }
+        
+        .modal-footer {
+            text-align: right;
+        }
+        
+        .modal-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .modal-btn:hover {
+            background: #2980b9;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .modal-content {
+                margin: 10% auto;
+                width: 90%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fixed Flicker-Free Modal</h1>
+            <p class="subtitle">This implementation completely eliminates modal background flickering.</p>
+        </header>
+        
+        <main>
+            <div class="content">
+                <div class="card">
+                    <div class="card-content">
+                        <h2>Root Causes of Flicker</h2>
+                        <p>1. Scrollbar manipulation causing layout shifts<br>
+                           2. Display property changes<br>
+                           3. Browser repaint issues</p>
+                        <a href="#" class="btn open-modal">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-content">
+                        <h2>Our Solution</h2>
+                        <p>1. Always reserve scrollbar space<br>
+                           2. Use opacity/visibility instead of display<br>
+                           3. Hardware acceleration with transform</p>
+                        <a href="#" class="btn open-modal">See Solution</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-content">
+                        <h2>Test the Modal</h2>
+                        <p>Open and close the modal to verify there's no background jumping or flickering.</p>
+                        <a href="#" class="btn open-modal">Test Modal</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Completely flicker-free modal implementation</p>
+        </footer>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close">&times;</button>
+            <div class="modal-header">
+                <h2>No More Flickering!</h2>
+            </div>
+            <div class="modal-body">
+                <p>This modal opens and closes smoothly without causing any background flicker or layout shift.</p>
+                <p><strong>Key technical solutions:</strong></p>
+                <ul>
+                    <li>Always show scrollbar with <code>overflow-y: scroll</code></li>
+                    <li>Use opacity/visibility transitions instead of display property</li>
+                    <li>Implement hardware acceleration with <code>transform: translateZ(0)</code></li>
+                    <li>Use <code>will-change</code> to inform browser of upcoming changes</li>
+                    <li>Properly manage scroll position with JavaScript</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn">Accept</button>
+                <button class="modal-btn close-modal" style="background: #e74c3c;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('modal');
+            const openModalButtons = document.querySelectorAll('.open-modal');
+            const closeModalButtons = document.querySelectorAll('.close, .close-modal');
+            const body = document.body;
+            
+            // Store the scroll position
+            let scrollPosition = 0;
+            
+            function openModal() {
+                // Get current scroll position
+                scrollPosition = window.pageYOffset;
+                
+                // Add modal-open class to body
+                body.classList.add('modal-open');
+                
+                // Set the body position to fixed and adjust top position
+                body.style.top = `-${scrollPosition}px`;
+                
+                // Show the modal
+                modal.classList.add('show');
+                
+                // Prevent background scrolling
+                document.addEventListener('scroll', preventScroll);
+            }
+            
+            function closeModal() {
+                // Hide the modal
+                modal.classList.remove('show');
+                
+                // Remove modal-open class from body
+                body.classList.remove('modal-open');
+                
+                // Restore the scroll position
+                window.scrollTo(0, scrollPosition);
+                
+                // Remove the inline top style
+                body.style.top = '';
+                
+                // Re-enable scrolling
+                document.removeEventListener('scroll', preventScroll);
+            }
+            
+            function preventScroll(e) {
+                e.preventDefault();
+                window.scrollTo(0, scrollPosition);
+            }
+            
+            // Add event listeners to all open buttons
+            openModalButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openModal();
+                });
+            });
+            
+            // Close modal when clicking on close buttons
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', closeModal);
+            });
+            
+            // Close modal when clicking on backdrop
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Includes with Fetch</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #4a00e0;
+            text-align: center;
+        }
+        
+        .content-area {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .include-buttons {
+            flex: 1;
+        }
+        
+        .result-area {
+            flex: 2;
+            border: 2px dashed #4a00e0;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 300px;
+        }
+        
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #4a00e0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #8e2de2;
+        }
+        
+        .included-content {
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HTML Content Inclusion Demo</h1>
+        includeContent('header')
+        
+        <div class="content-area">
+            <div class="include-buttons">
+                <h3>Include Content:</h3>
+                <button onclick="includeContent('header')">Header</button>
+                <button onclick="includeContent('navigation')">Navigation</button>
+                <button onclick="includeContent('article')">Article</button>
+                <button onclick="includeContent('footer')">Footer</button>
+                <button onclick="clearContent()">Clear All</button>
+                
+                <div style="margin-top: 30px;">
+                    <h3>How it works:</h3>
+                    <p>This demo uses JavaScript to dynamically insert HTML content. In a real application, you would fetch content from external files.</p>
+                    <pre>
+// Example fetch implementation:
+fetch('content/header.html')
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById('content').innerHTML += data;
+  });
+                    </pre>
+                </div>
+            </div>
+            
+            <div class="result-area" id="content">
+                <p>Included content will appear here...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Content templates (in a real app, you would fetch these from external files)
+        const contentTemplates = {
+            header: `
+                <div class="included-content" style="background: #e8eaf6;">
+                    <h2>&lt;header&gt;</h2>
+                    <p>This is a header section with logo and title</p>
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 50px; height: 50px; background: #4a00e0; border-radius: 50%; margin-right: 15px;"></div>
+                        <div>
+                            <h3 style="margin: 0;">Website Title</h3>
+                            <p style="margin: 0;">Tagline or description</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+            navigation: `
+                <div class="included-content" style="background: #f1f8e9;">
+                    <h2>&lt;nav&gt;</h2>
+                    <p>This is a navigation menu</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <a href="#" style="padding: 8px 15px; background: #4a00e0; color: white; text-decoration: none; border-radius: 4px;">Home</a>
+                        <a href="#" style="padding: 8px 15px; background: #4a00e0; color: white; text-decoration: none; border-radius: 4px;">About</a>
+                        <a href="#" style="padding: 8px 15px; background: #4a00e0; color: white; text-decoration: none; border-radius: 4px;">Services</a>
+                        <a href="#" style="padding: 8px 15px; background: #4a00e0; color: white; text-decoration: none; border-radius: 4px;">Contact</a>
+                    </div>
+                </div>
+            `,
+            article: `
+                <div class="included-content" style="background: #ffecb3;">
+                    <h2>&lt;article&gt;</h2>
+                    <p>This is an article section</p>
+                    <h3>Article Title</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eu ultricies lacinia, nunc nisl aliquam nisl, eu aliquam nisl nunc eu nisl.</p>
+                    <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam auctor, nisl eu ultricies lacinia, nunc nisl aliquam nisl, eu aliquam nisl nunc eu nisl.</p>
+                </div>
+            `,
+            footer: `
+                <div class="included-content" style="background: #e0f2f1;">
+                    <h2>&lt;footer&gt;</h2>
+                    <p>This is a footer section</p>
+                    <div style="text-align: center; padding: 15px; background: #4a00e0; color: white; border-radius: 5px;">
+                        <p>© 2023 Your Website. All rights reserved.</p>
+                        <p>Contact: email@example.com</p>
+                    </div>
+                </div>
+            `
+        };
+
+        function includeContent(type) {
+            const contentArea = document.getElementById('content');
+            if (contentArea.innerHTML.includes('Included content will appear here...')) {
+                contentArea.innerHTML = '';
+            }
+            contentArea.innerHTML += contentTemplates[type];
+        }
+
+        function clearContent() {
+            document.getElementById('content').innerHTML = '<p>Included content will appear here...</p>';
+        }
+    </script>
+</body>
+</html>

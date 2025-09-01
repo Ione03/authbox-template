@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#custom-tooltip {
+    position: fixed;
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.2s;
+    max-width: 300px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+#custom-tooltip.visible {
+    opacity: 1;
+}
+
+.hoverable {
+    background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+    padding: 2px 4px;
+    border-radius: 3px;
+    cursor: help;
+    transition: background 0.2s;
+}
+
+.hoverable:hover {
+    background: linear-gradient(120deg, #74ebd5 0%, #9face6 100%);
+}
+</style>
+</head>
+<body>
+
+<p>This is a sample text with 
+    <span class="hoverable" data-tooltip="A programming language created by Guido van Rossum">
+        Python
+    </span> 
+    and 
+    <span class="hoverable" data-tooltip="A JavaScript runtime built on Chrome's V8 engine">
+        Node.js
+    </span> 
+mentioned. Hover over them to see definitions.</p>
+
+<div id="custom-tooltip"></div>
+
+<script>
+const tooltip = document.getElementById('custom-tooltip');
+const hoverables = document.querySelectorAll('.hoverable');
+
+// Track mouse movement
+document.addEventListener('mousemove', (e) => {
+    if (tooltip.classList.contains('visible')) {
+        // Position tooltip 15px away from cursor
+        tooltip.style.left = (e.pageX + 15) + 'px';
+        tooltip.style.top = (e.pageY + 15) + 'px';
+    }
+});
+
+hoverables.forEach(element => {
+    // Mouse enter - show tooltip
+    element.addEventListener('mouseenter', (e) => {
+        const text = element.getAttribute('data-tooltip');
+        tooltip.textContent = text;
+        tooltip.classList.add('visible');
+        
+        // Position initially
+        tooltip.style.left = (e.pageX + 15) + 'px';
+        tooltip.style.top = (e.pageY + 15) + 'px';
+    });
+
+    // Mouse leave - hide tooltip
+    element.addEventListener('mouseleave', () => {
+        tooltip.classList.remove('visible');
+    });
+});
+
+// Hide tooltip when clicking anywhere
+document.addEventListener('click', () => {
+    tooltip.classList.remove('visible');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Dropdown with Modal</title>
+    <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Base styling for the hoverable text */
+        .hover-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        /* Dropdown content (hidden by default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 15px;
+            left: 0;
+            top: 100%;
+        }
+
+        /* Dropdown links */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color on hover */
+        .dropdown-content a:hover {
+            background-color: #e9e5e5;
+            border-radius: 15px;
+        }
+
+        /* Modal button styling */
+        .modal-button-lookup {
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .modal-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .modal-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Modal background */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+            position: relative;
+            animation: modalopen 0.4s;
+        }
+
+        @keyframes modalopen {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Close button */
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        /* Modal footer */
+        .modal-footer {
+            padding-top: 20px;
+            text-align: right;
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .dropdown-content {
+                position: absolute;
+                width: 80%;
+                left: 10%;
+                top: 140%;
+                transform: translateY(-50%);
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+            
+            .dropdown-content a {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hover-dropdown">
+        TEST
+        <span class="hover-text">Hover over me</span>
+        <div class="dropdown-content">
+            <a href="#" class="modal-trigger">
+                <i class="fas fa-home icon"></i> &nbsp;Open Modal
+            </a>
+            <a href="#"><i class="fas fa-home icon"></i> Option 2</a>
+            <a href="#"><i class="fas fa-home icon"></i> Option 3</a>
+        </div>
+    </div>
+
+    <hr>
+    This is some regular text in a paragraph that 
+    <div class="hover-dropdown">
+        <span class="hover-text">has a hover dropdown</span> embedded within it.
+        <div class="dropdown-content">
+            <a href="#"><i class="fas fa-home icon"></i> Learn more</a>
+            <a href="#"><i class="fas fa-home icon"></i> Contact us</a>
+        </div>
+    </div>
+
+    <!-- The modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <span class="modal-close close-btn">&times;</span>
+            <h2>Modal Title</h2>
+            <p>This is a modal window with ESC key support.</p>
+            <div class="modal-footer">
+                <button class="modal-button close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile-friendly dropdown toggle
+        document.querySelectorAll('.hover-dropdown').forEach(dropdown => {
+            const content = dropdown.querySelector('.dropdown-content');
+            let isTouchDevice = 'ontouchstart' in window;
+            
+            if (isTouchDevice) {
+                // For touch devices, use click events
+                dropdown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const allDropdowns = document.querySelectorAll('.dropdown-content');
+                    allDropdowns.forEach(dd => {
+                        if (dd !== content) dd.style.display = 'none';
+                    });
+                    
+                    if (content.style.display === 'block') {
+                        content.style.display = 'none';
+                    } else {
+                        content.style.display = 'block';
+                        content.style.opacity = '1';
+                        content.style.transform = 'translateY(0)';
+                    }
+                });
+            } else {
+                // For non-touch devices, keep hover behavior
+                dropdown.addEventListener('mouseenter', () => {
+                    content.style.display = 'block';
+                    content.style.opacity = '0';
+                    content.style.transform = 'translateY(-10px)';
+                    
+                    setTimeout(() => {
+                        content.style.opacity = '1';
+                        content.style.transform = 'translateY(0)';
+                    }, 10);
+                });
+                
+                dropdown.addEventListener('mouseleave', () => {
+                    content.style.opacity = '0';
+                    content.style.transform = 'translateY(-10px)';
+                    
+                    setTimeout(() => {
+                        content.style.display = 'none';
+                    }, 300);
+                });
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.hover-dropdown')) {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+            }
+        });
+
+        // Modal functionality
+        const modal = document.getElementById("myModal");
+        const modalTriggers = document.querySelectorAll(".modal-trigger");
+        const closeBtns = document.querySelectorAll(".close-btn");
+
+        // Open modal
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.style.display = "flex";
+                document.addEventListener("keydown", handleKeyDown);
+            });
+        });
+
+        // Close modal
+        function closeModal() {
+            modal.style.display = "none";
+            document.removeEventListener("keydown", handleKeyDown);
+        }
+
+        // ESC key handler
+        function handleKeyDown(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        }
+
+        // Close modal when clicking close buttons
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', closeModal);
+        });
+        
+        // Close modal when clicking outside content
+        modal.addEventListener("click", function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

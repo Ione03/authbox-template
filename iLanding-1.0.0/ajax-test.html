@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Form Example</title>
+</head>
+<body>
+    <div id="user-profile">
+        <h2>User Profile</h2>
+        <form id="user-form">
+            <div>
+                <label>Name:</label>
+                <input type="text" id="input-name" value="">
+            </div>
+            <div>
+                <label>Email:</label>
+                <input type="email" id="input-email" value="">
+            </div>
+            <button type="button" onclick="loadUserData()">Load Data</button>
+            <button type="button" onclick="saveUserData()">Save Changes</button>
+        </form>
+        
+        <div id="status" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        // Load user data and populate form
+        function loadUserData() {
+            fetch('https://jsonplaceholder.typicode.com/users/1')
+                .then(response => response.json())
+                .then(user => {
+                    document.getElementById('input-name').value = user.name;
+                    document.getElementById('input-email').value = user.email;
+                    document.getElementById('status').textContent = 'Data loaded successfully!';
+                })
+                .catch(error => {
+                    document.getElementById('status').textContent = 'Error loading data!';
+                    console.error('Error:', error);
+                });
+        }
+
+        // Save updated data
+        function saveUserData() {
+            const updatedData = {
+                name: document.getElementById('input-name').value,
+                email: document.getElementById('input-email').value
+            };
+
+            document.getElementById('status').textContent = 'Saving...';
+
+            fetch('https://jsonplaceholder.typicode.com/users/1', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('status').textContent = 'Data saved successfully!';
+                document.getElementById('status').style.color = 'green';
+                
+                // Update confirmation display
+                document.getElementById('confirmation-name').textContent = data.name;
+                document.getElementById('confirmation-email').textContent = data.email;
+            })
+            .catch(error => {
+                document.getElementById('status').textContent = 'Error saving data!';
+                document.getElementById('status').style.color = 'red';
+                console.error('Error:', error);
+            });
+        }
+
+        // Load data when page loads
+        window.onload = loadUserData;
+    </script>
+</body>
+</html>
