@@ -8,14 +8,18 @@
 // };
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Hover
     const tooltip = document.getElementById('custom-tooltip');
     const hoverables = document.querySelectorAll('.hoverable');
-    const modal = document.getElementById('myModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalCode = document.getElementById('modalCode');
-    const modalType = document.getElementById('modalType');
-    const closeBtn = document.querySelector('.close');
-    const infoForm = document.getElementById('infoForm');
+
+    // Modal
+    const modal = new bootstrap.Modal(document.getElementById('myModal'));
+    // const modal = document.getElementById('myModal');
+    // const modalTitle = document.getElementById('modalTitle');
+    // const modalCode = document.getElementById('modalCode');
+    // const modalType = document.getElementById('modalType');
+    // const closeBtn = document.querySelector('.close');
+    // const infoForm = document.getElementById('infoForm');
 
     // $('#infoModal').on('shown.bs.modal', function () {
     //     $(this).find('input:visible:first').focus();
@@ -24,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Track mouse movement for tooltip
     document.addEventListener('mousemove', (e) => {
+        // console.log('Mouse moved:', e.pageX, e.pageY);
         if (tooltip.classList.contains('visible')) {
             tooltip.style.left = (e.pageX + 15) + 'px';
             tooltip.style.top = (e.pageY + 15) + 'px';
@@ -34,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hoverables.forEach(element => {
         // Mouse enter - show tooltip
         element.addEventListener('mouseenter', (e) => {
+            // console.log('Mouse entered:', e.target);
             const text = element.getAttribute('data-tooltip');
             tooltip.textContent = text;
             tooltip.classList.add('visible');
@@ -49,67 +55,71 @@ document.addEventListener("DOMContentLoaded", () => {
         // Click - open modal
         element.addEventListener('click', (e) => {
             e.stopPropagation();
-            const title = element.getAttribute('data-modal-title') || 'Information Form';
-            const code = element.getAttribute('data-modal-code') || 'main-0';
-            const type = element.getAttribute('data-modal-type') || 'text';
-            modalTitle.textContent = title;
-            // modalCode.textContent = code;
-            modalType.value = type;
-            modalCode.value = code;
-            openModal();
+            // console.log('Element clicked:', e.target);
+            // If you want to use the modal, uncomment the following lines
+            // const modal = new bootstrap.Modal(document.getElementById('myModal'));
+            // const title = element.getAttribute('data-modal-title') || 'Information Form';
+            // const code = element.getAttribute('data-modal-code') || 'main-0';
+            // const type = element.getAttribute('data-modal-type') || 'text';
+            // modalTitle.textContent = title;
+            // // modalCode.textContent = code;
+            // modalType.value = type;
+            // modalCode.value = code;
+            // openModal();
+            modal.show();
         });
     });
 
     // Modal functions
-    function openModal() {
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-        tooltip.classList.remove('visible');
-    }
+    // function openModal() {
+    //     modal.classList.add('show');
+    //     document.body.style.overflow = 'hidden';
+    //     tooltip.classList.remove('visible');
+    // }
 
-    function closeModal() {
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
-    }
+    // function closeModal() {
+    //     modal.classList.remove('show');
+    //     document.body.style.overflow = '';
+    // }
 
     // Close modal events
-    closeBtn.addEventListener('click', closeModal);
+    // closeBtn.addEventListener('click', closeModal);
 
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
-        tooltip.classList.remove('visible');
-    });
+    // window.addEventListener('click', (e) => {
+    //     if (e.target === modal) {
+    //         closeModal();
+    //     }
+    //     tooltip.classList.remove('visible');
+    // });
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closeModal();
-        }
-    });
+    // document.addEventListener('keydown', (e) => {
+    //     if (e.key === 'Escape') {
+    //         closeModal();
+    //     }
+    // });
 
     // Form submission
-    infoForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    // infoForm.addEventListener('submit', (e) => {
+    //     e.preventDefault();
         
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            message: document.getElementById('message').value,
-            topic: modalTitle.textContent
-        };
+    //     const formData = {
+    //         name: document.getElementById('name').value,
+    //         email: document.getElementById('email').value,
+    //         message: document.getElementById('message').value,
+    //         topic: modalTitle.textContent
+    //     };
         
-        console.log('Form submitted:', formData);
-        alert(`Thank you, ${formData.name}! Your information about "${formData.topic}" has been submitted.`);
+    //     console.log('Form submitted:', formData);
+    //     alert(`Thank you, ${formData.name}! Your information about "${formData.topic}" has been submitted.`);
         
-        // Reset form and close modal
-        infoForm.reset();
-        closeModal();
-    });
+    //     // Reset form and close modal
+    //     infoForm.reset();
+    //     closeModal();
+    // });
 
     // Hide tooltip on click anywhere
-    document.addEventListener('click', () => {
-        tooltip.classList.remove('visible');
-    });
+    // document.addEventListener('click', () => {
+    //     tooltip.classList.remove('visible');
+    // });
 
 });

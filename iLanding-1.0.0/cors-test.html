@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django API Request Demo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: #4a5568;
+            color: white;
+            padding: 20px;
+            font-size: 1.4rem;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        button:hover {
+            background: #5a67d8;
+        }
+        
+        .response-container {
+            background: #f7fafc;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        pre {
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .users-list {
+            list-style: none;
+        }
+        
+        .user-item {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .user-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 10px;
+        }
+        
+        .status-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .status-error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Django API Request Demo</h1>
+            <p class="subtitle">Solving CORS and request blocking issues</p>
+        </header>
+        
+        <div class="content">
+            <div class="card">
+                <div class="card-header">
+                    API Request Tester
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="apiUrl">API Endpoint URL</label>
+                        <input type="text" id="apiUrl" value="http://127.0.0.1:8000/users/" placeholder="Enter your Django API endpoint">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="requestMethod">HTTP Method</label>
+                        <select id="requestMethod">
+                            <option value="GET">GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="DELETE">DELETE</option>
+                        </select>
+                    </div>
+                    
+                    <button id="sendRequest">Send Request</button>
+                    
+                    <div class="response-container">
+                        <h3>Response</h3>
+                        <div id="responseStatus"></div>
+                        <pre id="responseData">// Response will appear here</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    Solution Explanation
+                </div>
+                <div class="card-body">
+                    <h3>Why your request is being blocked:</h3>
+                    <p>Browser security prevents frontend JavaScript from making requests to a different domain/port than the one serving the page (CORS policy).</p>
+                    
+                    <h3>Solutions:</h3>
+                    <ol>
+                        <li><strong>Install django-cors-headers</strong> in your Django project</li>
+                        <li><strong>Configure CORS</strong> in your settings.py</li>
+                        <li><strong>Use a proxy</strong> during development</li>
+                        <li><strong>Handle credentials properly</strong></li>
+                    </ol>
+                    
+                    <h3>Configuration Example:</h3>
+                    <pre>
+# settings.py
+INSTALLED_APPS = [
+    ...
+    'corsheaders',
+    ...
+]
+
+MIDDLEWARE = [
+    ...
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    ...
+]
+
+# For development only - be more restrictive in production
+CORS_ALLOW_ALL_ORIGINS = True
+# Or specify allowed origins:
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://127.0.0.1:3000",
+# ]
+                    </pre>
+                    
+                    <div class="response-container">
+                        <h3>Users from API</h3>
+                        <ul class="users-list" id="usersList">
+                            <li class="user-item">No users loaded yet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>This demo shows how to handle requests to a Django backend from a frontend application</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendRequestBtn = document.getElementById('sendRequest');
+            const apiUrlInput = document.getElementById('apiUrl');
+            const requestMethodSelect = document.getElementById('requestMethod');
+            const responseStatus = document.getElementById('responseStatus');
+            const responseData = document.getElementById('responseData');
+            const usersList = document.getElementById('usersList');
+            
+            // Function to make API request
+            async function makeRequest() {
+                const url = apiUrlInput.value;
+                const method = requestMethodSelect.value;
+                
+                // Show loading state
+                sendRequestBtn.innerHTML = '<span class="loader"></span> Sending...';
+                sendRequestBtn.disabled = true;
+                responseStatus.innerHTML = '';
+                
+                try {
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        // credentials: 'include' // Uncomment if using session/auth
+                    });
+                    
+                    // Handle response status
+                    const statusClass = response.ok ? 'status status-success' : 'status status-error';
+                    responseStatus.innerHTML = `<span class="${statusClass}">${response.status} ${response.statusText}</span>`;
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        responseData.textContent = JSON.stringify(data, null, 2);
+                        
+                        // If we got users data, display it in the list
+                        if (url.includes('users') && Array.isArray(data)) {
+                            displayUsers(data);
+                        }
+                    } else {
+                        responseData.textContent = `Error: ${response.status} ${response.statusText}`;
+                    }
+                } catch (error) {
+                    responseStatus.innerHTML = `<span class="status status-error">Request Failed</span>`;
+                    responseData.textContent = `Error: ${error.message}\n\nThis is likely a CORS issue. Make sure you've configured django-cors-headers in your Django project.`;
+                } finally {
+                    // Reset button state
+                    sendRequestBtn.innerHTML = 'Send Request';
+                    sendRequestBtn.disabled = false;
+                }
+            }
+            
+            // Function to display users in the list
+            function displayUsers(users) {
+                if (users.length === 0) {
+                    usersList.innerHTML = '<li class="user-item">No users found</li>';
+                    return;
+                }
+                
+                usersList.innerHTML = '';
+                users.forEach(user => {
+                    const li = document.createElement('li');
+                    li.className = 'user-item';
+                    li.textContent = `${user.username || user.email || `User ${user.id}`}`;
+                    usersList.appendChild(li);
+                });
+            }
+            
+            // Event listener for the send request button
+            sendRequestBtn.addEventListener('click', makeRequest);
+            
+            // Try to load users automatically when page loads
+            setTimeout(() => {
+                makeRequest();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

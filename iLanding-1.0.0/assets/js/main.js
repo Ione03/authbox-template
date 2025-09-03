@@ -106,12 +106,24 @@
    */
   function initSwiper() {
     document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
-      let config = JSON.parse(
-        swiperElement.querySelector(".swiper-config").innerHTML.trim()
-      );
+      // let config = JSON.parse(
+      //   swiperElement.querySelector(".swiper-config").innerHTML.trim()
+      // );
 
+      // if (swiperElement.classList.contains("swiper-tab")) {
+      //   initSwiperWithCustomPagination(swiperElement, config);
+      // } else {
+      //   new Swiper(swiperElement, config);
+      // }
+      let configElement = swiperElement.querySelector(".swiper-config");
+      if (!configElement) return;
+      
+      let config = JSON.parse(configElement.innerHTML.trim());
+      
+      // This function is referenced but not defined in the original code
       if (swiperElement.classList.contains("swiper-tab")) {
-        initSwiperWithCustomPagination(swiperElement, config);
+        // initSwiperWithCustomPagination(swiperElement, config);
+        console.warn("initSwiperWithCustomPagination function is not defined");
       } else {
         new Swiper(swiperElement, config);
       }

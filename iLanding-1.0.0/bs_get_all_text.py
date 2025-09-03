@@ -4,6 +4,7 @@
 '''
 import re
 import copy
+import json
 from bs4 import BeautifulSoup, Comment
 
 
@@ -32,6 +33,21 @@ def get_root_parent_id(target, contain_tag_name):
                 mid = root_parent.get('id')    
                 return mid 
     return None 
+
+def get_root_parent_id_name(target, contain_tag_name, contain_id_name):
+    '''
+        # Traverse to the root parent
+        # cek apakah mengandung id tertentu misalnya id="hero-1" (jika iya return true)
+    '''
+    root_parent = target
+    while root_parent.parent is not None:
+        root_parent = root_parent.parent
+        if root_parent.name == contain_tag_name:
+            if root_parent.has_attr('id'):
+                mid = root_parent.get('id')   
+                if mid == contain_id_name:
+                    return True                
+    return False
 
 def clean_text(text_to_find, mchar):
     '''
@@ -83,7 +99,7 @@ def get_replacement_soup_copy(text_to_find, m_code, m_type):
             # """            
     return BeautifulSoup(tmp, 'html.parser')   
 
-def add_hover_click(soup, text_to_find, m_section_array, is_copy=False):
+def add_hover_click(soup, text_to_find, m_section_array, is_copy=False, manifest=None):
     '''
         add hover-text to all kind who user can change
     '''
@@ -113,6 +129,10 @@ def add_hover_click(soup, text_to_find, m_section_array, is_copy=False):
 
         if m_continue and get_root_parent(text_element[i], 'form'):            
             m_continue = False 
+
+        if m_continue and get_root_parent_id_name(text_element[i], 'div', 'myModal'):
+            # print('ENTER')
+            m_continue = False
 
         # get section id
         m_section = {}
@@ -148,7 +168,9 @@ def add_hover_click(soup, text_to_find, m_section_array, is_copy=False):
             
         if m_continue:
             m_code = f"{len(m_section_array)}-{m_section['name']}-{m_section['code']}"     
-            print('m_code', m_code)
+            # print('m_code', m_code)
+            if manifest is not None:
+                manifest.append(m_code)
             m_type = 'text'               
 
             if not is_copy:
@@ -167,7 +189,7 @@ def add_hover_click(soup, text_to_find, m_section_array, is_copy=False):
             #         text_element_copy[j].string.replace_with(text_to_find)
             # text_element_copy = soup.body.find_all(string=re.compile(text_to_find))          
             
-def replace_icon(soup, class_name, len_section_array, is_copy=False):
+def replace_icon(soup, class_name, len_section_array, is_copy=False, manifest=None):
     '''
         Replace all icon with hoverable
         class_name = 'bi' for bootstrap icon
@@ -191,7 +213,9 @@ def replace_icon(soup, class_name, len_section_array, is_copy=False):
 
             if m_continue:
                 idx += 1
-                m_code = f'{len_section_array}-bi-icon-{idx}'                
+                m_code = f'{len_section_array}-bi-icon-{idx}'    
+                if manifest is not None:
+                    manifest.append(m_code)            
 
                 icon_name = ""
                 for j in icon.get('class', []):                    
@@ -207,7 +231,7 @@ def replace_icon(soup, class_name, len_section_array, is_copy=False):
                     icon.replace_with(replacement_soup)
 
 
-def replace_img(soup, len_section_array, is_copy=False):
+def replace_img(soup, len_section_array, is_copy=False, manifest=None):
     '''
         Replace all img with hoverable
         # image tag bisa langsung tanpa pengecekan nav, ul, dan form
@@ -219,7 +243,10 @@ def replace_img(soup, len_section_array, is_copy=False):
     for img in imgs:        
         if img:
             idx += 1
-            m_code = f'{len_section_array}-image-{idx}'            
+            m_code = f'{len_section_array}-image-{idx}'  
+            if manifest is not None:
+                manifest.append(m_code)
+
             if not is_copy:
                 replacement_soup = get_replacement_soup(img, m_code, m_type)            
             else:
@@ -227,7 +254,7 @@ def replace_img(soup, len_section_array, is_copy=False):
             img.replace_with(replacement_soup)
 
 
-def replace_ul(soup, len_section_array, is_copy=False):
+def replace_ul(soup, len_section_array, is_copy=False, manifest=None):
     items = soup.find_all('ul')    
     idx = 0
     m_type = 'unordered-list'
@@ -244,6 +271,8 @@ def replace_ul(soup, len_section_array, is_copy=False):
             if m_continue:
                 idx += 1
                 m_code = f'{len_section_array}-unordered-list-{idx}'
+                if manifest is not None:
+                    manifest.append(m_code)
                     
                 # data-modal-title='{item.get_text(separator=', ', strip=True)}'                
                 # print('---', tmp)
@@ -255,7 +284,7 @@ def replace_ul(soup, len_section_array, is_copy=False):
                 item.replace_with(replacement_soup)
 
 
-def replace_nav(soup, len_section_array, is_copy=False):
+def replace_nav(soup, len_section_array, is_copy=False, manifest=None):
     items = soup.find_all('nav')    
     idx = 0
     m_type = 'nav-bar'
@@ -264,6 +293,8 @@ def replace_nav(soup, len_section_array, is_copy=False):
         if item:                    
             idx += 1
             m_code = f'{len_section_array}-nav-bar-{idx}'        
+            if manifest is not None:
+                manifest.append(m_code) 
             # data-modal-title='{item.get_text(separator=', ', strip=True)}'            
             if not is_copy:
                 replacement_soup = get_replacement_soup(item, m_code, m_type)            
@@ -286,6 +317,10 @@ def scrape_text():
         Cara pakai:
         1. Create file index.html dengan id yg sama seperti res.html
         2. Create file res.html (penghubungnya id)
+
+        Karna belum konek ke database
+        maka perlu buat file manifest.json untuk menyimpan daftar id       
+        id ini digunakan oleh ajax edit untuk mengedit data atau menampilkan data          
     '''    
     # URL of the webpage to scrape
     # url = "./index.html"
@@ -331,20 +366,22 @@ def scrape_text():
     m_section_array_copy = []    
     m_section_array_copy.append({ 'name': 'main', 'code': 0 })
 
+    m_manifest = [] # untuk menyimpan daftar id yang akan di simpan di manifest.json    
+
     for i in range(len(tmp)):        
-        add_hover_click(soup, tmp[i], m_section_array)
+        add_hover_click(soup, tmp[i], m_section_array, manifest=m_manifest)
         add_hover_click(soup_copy, tmp[i], m_section_array_copy, is_copy=True)
     
-    replace_icon(soup, 'bi', len(m_section_array)) # bi is bootstrap icon
+    replace_icon(soup, 'bi', len(m_section_array), manifest=m_manifest) # bi is bootstrap icon
     replace_icon(soup_copy, 'bi', len(m_section_array_copy), is_copy=True) # bi is bootstrap icon
 
-    replace_img(soup, len(m_section_array))
+    replace_img(soup, len(m_section_array), manifest=m_manifest)
     replace_img(soup_copy, len(m_section_array_copy), is_copy=True)
 
-    replace_ul(soup, len(m_section_array))
+    replace_ul(soup, len(m_section_array), manifest=m_manifest)
     replace_ul(soup_copy, len(m_section_array_copy), is_copy=True)
 
-    replace_nav(soup, len(m_section_array))
+    replace_nav(soup, len(m_section_array), manifest=m_manifest)
     replace_nav(soup_copy, len(m_section_array_copy), is_copy=True)
         
     with open("res.html", "w", encoding="utf-8") as file:
@@ -352,5 +389,10 @@ def scrape_text():
 
     with open("src.html", "w", encoding="utf-8") as file:
         file.write(soup_copy.prettify())
+
+    # print('manifest', m_manifest)
+    with open("manifest.json", "w", encoding="utf-8") as file:
+        # file.write(m_manifest.json())       
+        json.dump(m_manifest, file) 
 
     print("Scraping completed. Results saved to res.html")

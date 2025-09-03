@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet"/>
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet"/>
   <link href="assets/vendor/aos/aos.css" rel="stylesheet"/>
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet"/>
@@ -22,7 +22,7 @@
   <link href="hover-click.css" rel="stylesheet"/>
  </head>
  <body class="index-page">
-  <header class="header d-flex align-items-center fixed-top" id="header">
+  <header class="header d-flex justify-content-center align-items-center sticky-top" id="header">
    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
     <a class="logo d-flex align-items-center me-auto me-xl-0">
      <h1 class="sitename">
@@ -2249,14 +2249,30 @@
     </form>
    </div>
   </div>
+  <div aria-hidden="true" class="modal fade" id="myModal" tabindex="-1">
+   <div class="modal-dialog">
+    <div class="modal-content">
+     <div class="modal-header">
+      <h5 class="modal-title">
+       Smooth Modal
+      </h5>
+      <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+      </button>
+     </div>
+     <div class="modal-body">
+      <p>
+       This modal opens without flicker or layout shift. Enjoy the smooth experience!
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
   <a class="scroll-top d-flex align-items-center justify-content-center" id="scroll-top">
    <span class="hoverable hoverable-mark" data-modal-code="14-bi-icon-70" data-modal-title='&lt;i class="bi bi-arrow-up-short"&gt;&lt;/i&gt;' data-modal-type="icon" data-tooltip="Link ini hanya tampil di mode edit. Silahkan klik untuk mengedit data!" id="14-bi-icon-70">
     <i class="bi bi-arrow-up-short">
     </i>
    </span>
   </a>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js">
-  </script>
   <script src="assets/vendor/php-email-form/validate.js">
   </script>
   <script src="assets/vendor/aos/aos.js">
@@ -2272,6 +2288,8 @@
   <script src="hover-click.js">
   </script>
   <script src="swiper-config.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
   </script>
  </body>
 </html>
