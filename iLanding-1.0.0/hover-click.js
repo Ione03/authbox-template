@@ -7,13 +7,35 @@
 //     m_object.innerHTML = '<span data-modal-code="bi-icon-70" data-modal-title="bi-arrow-up-short" data-modal-type="icon" data-tooltip="Link ini hanya tampil di mode edit. Silahkan klik untuk mengedit data!">TEST 123</span>'    
 // };
 
+// Function to load modal from external file
+async function loadModal(modalFile, modalContainerId) {
+  try {
+    const response = await fetch(modalFile);
+    const html = await response.text();
+    document.getElementById(modalContainerId).innerHTML = html;
+    // console.log('Modal loaded successfully');
+    alert('Modal loaded successfully');
+  } catch (error) {
+    // console.error('Error loading modal:', error);
+    alert('Error loading modal ' + error);
+  }
+};
+// Load modal when needed
+// function loadModalWithJQuery(modalFile, modalId) {
+//   $('#modal-container').load(modalFile, function() {
+//     $(modalId).modal('show');
+//   });
+// }
+
 document.addEventListener("DOMContentLoaded", () => {
     // Hover
     const tooltip = document.getElementById('custom-tooltip');
     const hoverables = document.querySelectorAll('.hoverable');
 
+    loadModal('smooth-modal.html', 'modal-container');
     // Modal
-    const modal = new bootstrap.Modal(document.getElementById('myModal'));
+    // const modal = new bootstrap.Modal(document.getElementById('myModal'));
+    // console.log('modal',modal);
     // const modal = document.getElementById('myModal');
     // const modalTitle = document.getElementById('modalTitle');
     // const modalCode = document.getElementById('modalCode');
@@ -66,7 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // modalType.value = type;
             // modalCode.value = code;
             // openModal();
+            const modal = new bootstrap.Modal(document.getElementById('myModal'));
             modal.show();
+            // loadModalWithJQuery('smooth-modal.html', 'modal-container');
         });
     });
 

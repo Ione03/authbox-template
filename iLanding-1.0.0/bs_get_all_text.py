@@ -230,7 +230,6 @@ def replace_icon(soup, class_name, len_section_array, is_copy=False, manifest=No
                         replacement_soup = get_replacement_soup_copy(icon, m_code, m_type)                    
                     icon.replace_with(replacement_soup)
 
-
 def replace_img(soup, len_section_array, is_copy=False, manifest=None):
     '''
         Replace all img with hoverable
@@ -252,7 +251,6 @@ def replace_img(soup, len_section_array, is_copy=False, manifest=None):
             else:
                 replacement_soup = get_replacement_soup_copy(img, m_code, m_type)
             img.replace_with(replacement_soup)
-
 
 def replace_ul(soup, len_section_array, is_copy=False, manifest=None):
     items = soup.find_all('ul')    
@@ -283,7 +281,6 @@ def replace_ul(soup, len_section_array, is_copy=False, manifest=None):
                     replacement_soup = get_replacement_soup(item, m_code, m_type)                
                 item.replace_with(replacement_soup)
 
-
 def replace_nav(soup, len_section_array, is_copy=False, manifest=None):
     items = soup.find_all('nav')    
     idx = 0
@@ -301,7 +298,6 @@ def replace_nav(soup, len_section_array, is_copy=False, manifest=None):
             else:
                 replacement_soup = get_replacement_soup_copy(item, m_code, m_type)
             item.replace_with(replacement_soup)
-
 
 def scrape_text():
     '''

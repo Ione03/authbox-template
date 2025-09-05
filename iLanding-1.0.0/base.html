@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  {% include 'ilanding/snippets/link.html' %}
+  {% include 'ilanding/snippets/meta.html' %}
+  <title>
+   {{ title }}
+  </title>
+  {% block extra_head %} {% endblock %}
+ </head>
+ <body class="index-page">
+  {% include 'ilanding/snippets/script.html' %}
+  {% include 'ilanding/snippets/header.html' %}
+  {% include 'ilanding/snippets/main.html' %}
+  {% include 'ilanding/snippets/footer.html' %}
+  <div id="custom-tooltip">
+  </div>
+  <div aria-hidden="true" aria-labelledby="modalTitle" class="modal fade" id="infoModal" tabindex="-1">
+   <div class="modal-content">
+    <span class="close">
+     ×
+    </span>
+    <h3 class="modal-title" id="modalTitle">
+     <span class="hoverable hoverable-mark" data-modal-code="14-main-36" data-modal-title="Information Form" data-modal-type="text" data-tooltip="Link ini hanya tampil di mode edit. Silahkan klik untuk mengedit data!" id="14-main-36">
+      Information Form
+     </span>
+    </h3>
+    <input id="modalCode" type="hidden"/>
+    <input id="modalType" type="hidden"/>
+    <br/>
+    <form id="infoForm">
+     <div class="form-group">
+      <label for="name">
+       Ubah Menjadi:
+      </label>
+      <input autofocus="" id="name" name="name" type="text"/>
+     </div>
+     <button class="submit-btn" type="submit">
+      Submit
+     </button>
+    </form>
+   </div>
+  </div>
+  <div aria-hidden="true" class="modal fade" id="myModal" tabindex="-1">
+   <div class="modal-dialog">
+    <div class="modal-content">
+     <div class="modal-header">
+      <h5 class="modal-title">
+       Smooth Modal
+      </h5>
+      <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+      </button>
+     </div>
+     <div class="modal-body">
+      <p>
+       This modal opens without flicker or layout shift. Enjoy the smooth experience!
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <a class="scroll-top d-flex align-items-center justify-content-center" id="scroll-top">
+   <span class="hoverable hoverable-mark" data-modal-code="14-bi-icon-70" data-modal-title='&lt;i class="bi bi-arrow-up-short"&gt;&lt;/i&gt;' data-modal-type="icon" data-tooltip="Link ini hanya tampil di mode edit. Silahkan klik untuk mengedit data!" id="14-bi-icon-70">
+    <i class="bi bi-arrow-up-short">
+    </i>
+   </span>
+  </a>
+  {% block extra_body %} {% endblock %}
+ </body>
+</html>

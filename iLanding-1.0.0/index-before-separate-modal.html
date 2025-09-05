@@ -32,6 +32,9 @@
   <!-- <link rel="stylesheet" href="inline-dropdown.css">
   <link rel="stylesheet" href="inline-modal.css"> -->
 
+
+
+
   <!-- =======================================================
   * Template Name: iLanding
   * Template URL: https://bootstrapmade.com/ilanding-bootstrap-landing-page-template/
@@ -46,13 +49,9 @@
   <!-- <header id="header" class="header d-flex justify-content-center align-items-center fixed-top"> -->
   <header id="header" class="header d-flex justify-content-center align-items-center sticky-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-      <!--  -->
+
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">        
-          <h1 class="sitename">
-            
-              iLanding
-            
-          </h1>        
+          <h1 class="sitename">iLanding</h1>        
       </a>      
       <!-- <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0"> -->
         <!-- Uncomment the line below if you also wish to use an image logo -->
@@ -110,16 +109,11 @@
             <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
               <div class="company-badge mb-4">
                 <i class="bi bi-gear-fill me-2"></i>
-                <span class="hoverable hoverable-mark" data-modal-code="9-about-7" data-modal-title="Call us anytime" data-modal-type="text" data-tooltip="Link ini hanya tampil di mode edit. Silahkan klik untuk mengedit data!" id="9-about-7">
-                  Working for your success
-                </span>
+                Working for your success
               </div>
 
               <h1 class="mb-4">
-                <span class="hoverable hoverable-mark" data-modal-code="9-about-7" data-modal-title="Call us anytime" data-modal-type="text" data-tooltip="Link ini hanya tampil di mode edit. Silahkan klik untuk mengedit data!" id="9-about-7">
-                Maecenas Vitae 
-                </span>
-                <br>
+                Maecenas Vitae <br>
                 Consectetur Led <br>
                 <span class="accent-text">Vestibulum Ante</span>
               </h1>
@@ -1223,13 +1217,68 @@
 
   <div id="custom-tooltip"></div>
 
+  <!-- Modal Structure -->
+  <div id="infoModal" class="modal fade" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <h3 class="modal-title" id="modalTitle">Information Form</h3>
+          <!-- <h3 class="modal-code" id="modalCode">Code</h3> -->
+          <!-- <h3 class="modal-type" id="modalType">Type</h3>  -->
+          <input type="hidden" id="modalCode" >
+          <input type="hidden" id="modalType" >
+          <!-- <input type="text" id="modalType" value="12345"> -->
+          <br>
+          <form id="infoForm">
+              <div class="form-group">
+                  <label for="name">Ubah Menjadi:</label>
+                  <input type="text" id="name" name="name" autofocus>
+              </div>
+              <!-- <div class="form-group">
+                  <label for="email">Email Address:</label>
+                  <input type="email" id="email" name="email" >
+              </div> -->
+              <!-- <div class="form-group">
+                  <label for="message">Message:</label>
+                  <textarea id="message" name="message" rows="4" ></textarea>
+              </div> -->
+              <button type="submit" class="submit-btn">Submit</button>
+          </form>
+      </div>
+  </div>
+
+  <!-- Modal HTML (placed near the end of body) -->
+<!-- <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">fade
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">No Flicker Modal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>This modal opens smoothly without flicker.</p>
+      </div>
+    </div>
+  </div>
+</div> -->
+
   <!-- Modal -->
-  <div id="modal-container"></div>
+  <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Smooth Modal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>This modal opens without flicker or layout shift. Enjoy the smooth experience!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
   <!-- Vendor JS Files -->
   <!-- <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
