@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Modal Closing Methods</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1100px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #eaeaea;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        .code-container {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .step {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        .step-number {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background: #3498db;
+            border: none;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        .method-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+        .method-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .demo-btn {
+            margin: 10px 5px;
+        }
+        .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .modal-header {
+            background: #3498db;
+            color: white;
+        }
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-times-circle me-2"></i>Closing Bootstrap Modals</h1>
+            <p class="lead">Multiple ways to close a Bootstrap modal with examples</p>
+        </div>
+
+        <div class="content">
+            <h2 class="mb-4">Methods to Close a Bootstrap Modal</h2>
+            
+            <div class="step">
+                <h3><span class="step-number">1</span> Basic Modal Structure</h3>
+                <p>First, let's create a basic Bootstrap modal:</p>
+                <div class="code-container">
+                    <span class="html-comment">&lt;!-- Button to trigger modal --&gt;</span><br>
+                    <span class="html-tag">&lt;button</span> <span class="html-attr">type=</span><span class="html-value">"button"</span> <span class="html-attr">class=</span><span class="html-value">"btn btn-primary"</span> <span class="html-attr">data-bs-toggle=</span><span class="html-value">"modal"</span> <span class="html-attr">data-bs-target=</span><span class="html-value">"#exampleModal"</span><span class="html-tag">&gt;</span><br>
+                    &nbsp;&nbsp;Open Modal<br>
+                    <span class="html-tag">&lt;/button&gt;</span><br>
+                    <br>
+                    <span class="html-comment">&lt;!-- Modal --&gt;</span><br>
+                    <span class="html-tag">&lt;div</span> <span class="html-attr">class=</span><span class="html-value">"modal fade"</span> <span class="html-attr">id=</span><span class="html-value">"exampleModal"</span> <span class="html-attr">tabindex=</span><span class="html-value">"-1"</span> <span class="html-attr">aria-labelledby=</span><span class="html-value">"exampleModalLabel"</span> <span class="html-attr">aria-hidden=</span><span class="html-value">"true"</span><span class="html-tag">&gt;</span><br>
+                    &nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class=</span><span class="html-value">"modal-dialog"</span><span class="html-tag">&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class=</span><span class="html-value">"modal-content"</span><span class="html-tag">&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class=</span><span class="html-value">"modal-header"</span><span class="html-tag">&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;h5</span> <span class="html-attr">class=</span><span class="html-value">"modal-title"</span> <span class="html-attr">id=</span><span class="html-value">"exampleModalLabel"</span><span class="html-tag">&gt;</span>Modal Title<span class="html-tag">&lt;/h5&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;button</span> <span class="html-attr">type=</span><span class="html-value">"button"</span> <span class="html-attr">class=</span><span class="html-value">"btn-close"</span> <span class="html-attr">data-bs-dismiss=</span><span class="html-value">"modal"</span> <span class="html-attr">aria-label=</span><span class="html-value">"Close"</span><span class="html-tag">&gt;&lt;/button&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class=</span><span class="html-value">"modal-body"</span><span class="html-tag">&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Modal content goes here...<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class=</span><span class="html-value">"modal-footer"</span><span class="html-tag">&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;button</span> <span class="html-attr">type=</span><span class="html-value">"button"</span> <span class="html-attr">class=</span><span class="html-value">"btn btn-secondary"</span> <span class="html-attr">data-bs-dismiss=</span><span class="html-value">"modal"</span><span class="html-tag">&gt;</span>Close<span class="html-tag">&lt;/button&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;button</span> <span class="html-attr">type=</span><span class="html-value">"button"</span> <span class="html-attr">class=</span><span class="html-value">"btn btn-primary"</span><span class="html-tag">&gt;</span>Save changes<span class="html-tag">&lt;/button&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                    &nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                    <span class="html-tag">&lt;/div&gt;</span>
+                </div>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">2</span> Methods to Close the Modal</h3>
+                
+                <div class="method-card">
+                    <h4>1. Using data-bs-dismiss Attribute</h4>
+                    <p>Add <code>data-bs-dismiss="modal"</code> to any button inside the modal to close it when clicked.</p>
+                    <div class="code-container">
+                        <span class="html-tag">&lt;button</span> <span class="html-attr">type=</span><span class="html-value">"button"</span> <span class="html-attr">class=</span><span class="html-value">"btn btn-secondary"</span> <span class="html-attr">data-bs-dismiss=</span><span class="html-value">"modal"</span><span class="html-tag">&gt;</span>Close<span class="html-tag">&lt;/button&gt;</span>
+                    </div>
+                    <button class="btn btn-primary demo-btn" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                        Try Method 1
+                    </button>
+                </div>
+                
+                <div class="method-card">
+                    <h4>2. Using JavaScript hide() Method</h4>
+                    <p>Call the <code>hide()</code> method on the modal instance.</p>
+                    <div class="code-container">
+                        <span class="html-comment">// Get the modal instance</span><br>
+                        var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));<br>
+                        <span class="html-comment">// Hide the modal</span><br>
+                        myModal.hide();
+                    </div>
+                    <button class="btn btn-primary demo-btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                        Try Method 2
+                    </button>
+                </div>
+                
+                <div class="method-card">
+                    <h4>3. Using jQuery</h4>
+                    <p>If you're using jQuery, you can close the modal with:</p>
+                    <div class="code-container">
+                        <span class="html-comment">// Hide the modal</span><br>
+                        $('#exampleModal').modal('hide');
+                    </div>
+                    <button class="btn btn-primary demo-btn" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                        Try Method 3
+                    </button>
+                </div>
+                
+                <div class="method-card">
+                    <h4>4. Closing by Clicking Outside</h4>
+                    <p>By default, clicking outside the modal content will close it. You can disable this with <code>data-bs-backdrop="static"</code>.</p>
+                    <div class="code-container">
+                        <span class="html-comment">&lt;!-- Modal with static backdrop (won't close when clicking outside) --&gt;</span><br>
+                        <span class="html-tag">&lt;div</span> <span class="html-attr">class=</span><span class="html-value">"modal fade"</span> <span class="html-attr">id=</span><span class="html-value">"exampleModal"</span> <span class="html-attr">data-bs-backdrop=</span><span class="html-value">"static"</span> <span class="html-attr">data-bs-keyboard=</span><span class="html-value">"false"</span><span class="html-tag">&gt;</span>
+                    </div>
+                    <button class="btn btn-primary demo-btn" data-bs-toggle="modal" data-bs-target="#exampleModal4">
+                        Try Method 4
+                    </button>
+                </div>
+                
+                <div class="method-card">
+                    <h4>5. Closing with Escape Key</h4>
+                    <p>By default, pressing the Escape key will close the modal. You can disable this with <code>data-bs-keyboard="false"</code>.</p>
+                    <div class="code-container">
+                        <span class="html-comment">&lt;!-- Modal that won't close with Escape key --&gt;</span><br>
+                        <span class="html-tag">&lt;div</span> <span class="html-attr">class=</span><span class="html-value">"modal fade"</span> <span class="html-attr">id=</span><span class="html-value">"exampleModal"</span> <span class="html-attr">data-bs-backdrop=</span><span class="html-value">"true"</span> <span class="html-attr">data-bs-keyboard=</span><span class="html-value">"false"</span><span class="html-tag">&gt;</span>
+                    </div>
+                    <button class="btn btn-primary demo-btn" data-bs-toggle="modal" data-bs-target="#exampleModal5">
+                        Try Method 5
+                    </button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">3</span> Advanced Example: Programmatic Control</h3>
+                <p>Here's an example showing how to control modals programmatically with JavaScript:</p>
+                <div class="code-container">
+                    <span class="html-comment">// Get the modal element</span><br>
+                    var exampleModal = document.getElementById('exampleModal');<br>
+                    <br>
+                    <span class="html-comment">// Create a Bootstrap modal instance</span><br>
+                    var modal = new bootstrap.Modal(exampleModal);<br>
+                    <br>
+                    <span class="html-comment">// Show the modal</span><br>
+                    modal.show();<br>
+                    <br>
+                    <span class="html-comment">// Add event listener for when the modal is fully hidden</span><br>
+                    exampleModal.addEventListener('hidden.bs.modal', function (event) {<br>
+                    &nbsp;&nbsp;// Do something when the modal is completely hidden<br>
+                    &nbsp;&nbsp;console.log('Modal is now hidden');<br>
+                    });<br>
+                    <br>
+                    <span class="html-comment">// Hide the modal after 5 seconds</span><br>
+                    setTimeout(function() {<br>
+                    &nbsp;&nbsp;modal.hide();<br>
+                    }, 5000);
+                </div>
+                <button class="btn btn-primary demo-btn" onclick="showAutoCloseModal()">
+                    Try Auto-Close Modal
+                </button>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">4</span> Practical Demo</h3>
+                <p>Try out these methods with the demo modals below:</p>
+                
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                        Method 1: data-bs-dismiss
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                        Method 2: JavaScript hide()
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                        Method 3: jQuery
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal4">
+                        Method 4: Static Backdrop
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal5">
+                        Method 5: No Keyboard
+                    </button>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h4><i class="fas fa-info-circle me-2"></i>Note</h4>
+                    <p>For methods 2 and 3, you'll need to use the close buttons inside the modals to see the JavaScript in action.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Demo Modals -->
+    
+    <!-- Method 1 Modal -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Method 1: data-bs-dismiss</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This modal can be closed using the X button or the Close button below, both using <code>data-bs-dismiss="modal"</code>.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Method 2 Modal -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2">Method 2: JavaScript hide()</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This modal will be closed using JavaScript's <code>hide()</code> method when you click the button below.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('exampleModal2')">Close with JS hide()</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Method 3 Modal -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3">Method 3: jQuery</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This modal demonstrates how you would close a modal with jQuery (if jQuery was loaded on this page).</p>
+                    <p class="fst-italic">Note: jQuery is not loaded on this page, so this is for demonstration purposes only.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Method 4 Modal -->
+    <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel4" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel4">Method 4: Static Backdrop</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This modal has <code>data-bs-backdrop="static" data-bs-keyboard="false"</code>, so it won't close when clicking outside or pressing Escape.</p>
+                    <p>You must use the close button to dismiss this modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Method 5 Modal -->
+    <div class="modal fade" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel5" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel5">Method 5: No Keyboard</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This modal has <code>data-bs-keyboard="false"</code>, so it won't close when pressing the Escape key.</p>
+                    <p>You can still close it by clicking outside or using the close buttons.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Auto-Close Modal -->
+    <div class="modal fade" id="autoCloseModal" tabindex="-1" aria-labelledby="autoCloseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="autoCloseModalLabel">Auto-Close Modal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This modal will automatically close in <span id="countdown">5</span> seconds.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Bootstrap Modal Closing Methods | Created with HTML, CSS, and JavaScript</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to close modal using JavaScript hide() method
+        function closeModal(modalId) {
+            var modalElement = document.getElementById(modalId);
+            var modal = bootstrap.Modal.getInstance(modalElement);
+            modal.hide();
+        }
+        
+        // Function to show auto-close modal
+        function showAutoCloseModal() {
+            var modalElement = document.getElementById('autoCloseModal');
+            var modal = new bootstrap.Modal(modalElement);
+            modal.show();
+            
+            // Start countdown
+            var seconds = 5;
+            var countdownElement = document.getElementById('countdown');
+            countdownElement.textContent = seconds;
+            
+            var countdownInterval = setInterval(function() {
+                seconds--;
+                countdownElement.textContent = seconds;
+                
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    modal.hide();
+                }
+            }, 1000);
+            
+            // Reset countdown if modal is manually closed
+            modalElement.addEventListener('hidden.bs.modal', function() {
+                clearInterval(countdownInterval);
+            });
+        }
+        
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+</body>
+</html>
