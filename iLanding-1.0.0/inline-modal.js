@@ -22,14 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function closeModal() {
         modal.style.display = "none";
         document.removeEventListener("keydown", handleKeyDown);
-    }
+    };
 
     // ESC key handler
     function handleKeyDown(event) {
         if (event.key === "Escape") {
             closeModal();
         }
-    }
+    };
 
     // Close modal when clicking close buttons
     closeBtns.forEach(btn => {

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smooth Testimonials with Fade Animations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Custom animation for smoother transitions */
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-leave {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-leave-active {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        /* Pulse animation for active dot */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen flex items-center justify-center p-4">
+    <section class="w-full max-w-4xl" 
+             x-data="{
+                testimonials: [
+                    {
+                        avatar: 'https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg',
+                        name: 'Ibu Riska',
+                        title: 'Acara Ngusiran',
+                        quote: 'Pelayanan yang prima, semua makanan fresh, dan tepat waktu pengantarannya. Bisa jadi langganan nih, hehehe...'
+                    },
+                    {
+                        avatar: 'https://randomuser.me/api/portraits/women/79.jpg',
+                        name: 'Pak Sapoan',
+                        title: 'Acara Aqiqah',
+                        quote: 'Semua tamu puas dengan makanannya, enak dan fresh, sukses terus pak Owner...'
+                    },
+                    {
+                        avatar: 'https://randomuser.me/api/portraits/men/86.jpg',
+                        name: 'Ibu Silvia',
+                        title: 'Acara Akad Nikah & Resepsi',
+                        quote: 'Acaranya lancar dan semua tamu puas, Alhamdulillah, terima kasih pak Owner'
+                    },
+                    {
+                        avatar: 'https://randomuser.me/api/portraits/women/43.jpg',
+                        name: 'Bapak Ahmad',
+                        title: 'Acara Syukuran',
+                        quote: 'Makanannya sangat lezat dan penyajiannya profesional. Recommended!'
+                    },
+                    {
+                        avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+                        name: 'Ibu Dewi',
+                        title: 'Acara Pernikahan',
+                        quote: 'Hasilnya melebihi ekspektasi! Semua tamu memuji cita rasa makanan dan pelayanannya.'
+                    }
+                ],
+                currentTestimonial: 0,
+                autoSlideInterval: null,
+                isPaused: false,
+                isTransitioning: false,
+                direction: 'next', // Track direction for animation
+                init() {
+                    this.startAutoSlide();
+                    
+                    // Pause auto-slide when user interacts
+                    this.$el.addEventListener('mouseenter', () => {
+                        this.pauseAutoSlide();
+                    });
+                    
+                    this.$el.addEventListener('mouseleave', () => {
+                        if (!this.isPaused) {
+                            this.startAutoSlide();
+                        }
+                    });
+                },
+                startAutoSlide() {
+                    this.autoSlideInterval = setInterval(() => {
+                        this.nextTestimonial();
+                    }, 5000); // Change every 5 seconds
+                },
+                pauseAutoSlide() {
+                    if (this.autoSlideInterval) {
+                        clearInterval(this.autoSlideInterval);
+                        this.autoSlideInterval = null;
+                    }
+                },
+                async nextTestimonial() {
+                    if (this.isTransitioning) return;
+                    
+                    this.isTransitioning = true;
+                    this.direction = 'next';
+                    
+                    // Wait for fade out
+                    await new Promise(resolve => setTimeout(resolve, 600));
+                    
+                    this.currentTestimonial = (this.currentTestimonial + 1) % this.testimonials.length;
+                    
+                    // Wait a bit before allowing next transition
+                    setTimeout(() => {
+                        this.isTransitioning = false;
+                    }, 100);
+                },
+                async prevTestimonial() {
+                    if (this.isTransitioning) return;
+                    
+                    this.isTransitioning = true;
+                    this.direction = 'prev';
+                    
+                    // Wait for fade out
+                    await new Promise(resolve => setTimeout(resolve, 600));
+                    
+                    this.currentTestimonial = this.currentTestimonial === 0 ? 
+                        this.testimonials.length - 1 : this.currentTestimonial - 1;
+                    
+                    // Wait a bit before allowing next transition
+                    setTimeout(() => {
+                        this.isTransitioning = false;
+                    }, 100);
+                },
+                async goToTestimonial(index) {
+                    if (this.isTransitioning || this.currentTestimonial === index) return;
+                    
+                    this.isTransitioning = true;
+                    this.direction = index > this.currentTestimonial ? 'next' : 'prev';
+                    
+                    // Wait for fade out
+                    await new Promise(resolve => setTimeout(resolve, 600));
+                    
+                    this.currentTestimonial = index;
+                    
+                    // Wait a bit before allowing next transition
+                    setTimeout(() => {
+                        this.isTransitioning = false;
+                    }, 100);
+                },
+                toggleAutoSlide() {
+                    if (this.autoSlideInterval) {
+                        this.pauseAutoSlide();
+                        this.isPaused = true;
+                    } else {
+                        this.startAutoSlide();
+                        this.isPaused = false;
+                    }
+                }
+             }">
+        
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="max-w-3xl mx-auto text-center">
+                <h3 class="text-indigo-600 font-semibold pb-2 text-lg">Testimonial</h3>
+                <h2 class="text-3xl font-bold text-gray-800 mb-8">Apa Kata Pelanggan Kami?</h2>
+                
+                <!-- Testimonial Container -->
+                <div class="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 md:p-12 border border-white/50"
+                     :class="{ 'ring-2 ring-indigo-500/30': isPaused }">
+                    
+                    <!-- Navigation Arrows -->
+                    <button @click="prevTestimonial" 
+                            class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-indigo-50 transition-all duration-300 z-10 group"
+                            :disabled="isTransitioning">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    
+                    <button @click="nextTestimonial" 
+                            class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-indigo-50 transition-all duration-300 z-10 group"
+                            :disabled="isTransitioning">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Auto-play Toggle -->
+                    <button @click="toggleAutoSlide" 
+                            class="absolute top-4 right-4 bg-indigo-100 text-indigo-600 rounded-full p-2 hover:bg-indigo-200 transition-all duration-300 group"
+                            :title="isPaused ? 'Resume auto-slide' : 'Pause auto-slide'">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <template x-if="isPaused">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            </template>
+                            <template x-if="!isPaused">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6" />
+                            </template>
+                        </svg>
+                    </button>
+                    
+                    <!-- Testimonial Content -->
+                    <div class="relative h-64 md:h-72 overflow-hidden">
+                        <template x-for="(testimonial, index) in testimonials" :key="index">
+                            <div x-show="currentTestimonial === index" 
+                                 x-transition:enter="fade-enter"
+                                 x-transition:enter-active="fade-enter-active"
+                                 x-transition:leave="fade-leave"
+                                 x-transition:leave-active="fade-leave-active"
+                                 class="absolute inset-0 flex flex-col justify-center">
+                                <figure class="px-4 md:px-8">
+                                    <!-- Quote Icon -->
+                                    <div class="mb-4 flex justify-center">
+                                        <svg class="w-10 h-10 text-indigo-200" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                                        </svg>
+                                    </div>
+                                    
+                                    <blockquote class="mb-6">
+                                        <p class="text-gray-700 text-lg md:text-xl leading-relaxed font-medium" x-text="testimonial.quote"></p>
+                                    </blockquote>
+                                    
+                                    <div class="flex flex-col items-center">
+                                        <img :src="testimonial.avatar" class="w-16 h-16 rounded-full border-4 border-white shadow-lg transition-transform duration-300 hover:scale-105" />
+                                        <div class="mt-4 text-center">
+                                            <span class="block text-gray-800 font-semibold text-lg" x-text="testimonial.name"></span>
+                                            <span class="block text-indigo-600 text-sm mt-1 font-medium" x-text="testimonial.title"></span>
+                                        </div>
+                                    </div>
+                                </figure>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                
+                <!-- Dots Indicator -->
+                <div class="mt-8">
+                    <ul class="flex gap-x-4 justify-center">
+                        <template x-for="(testimonial, index) in testimonials" :key="index">
+                            <li>
+                                <button 
+                                    class="w-3 h-3 rounded-full duration-300 ring-offset-2 ring-indigo-600 focus:ring transition-all"
+                                    :class="{ 
+                                        'bg-indigo-600 pulse-dot': currentTestimonial === index, 
+                                        'bg-gray-300 hover:bg-gray-400': currentTestimonial !== index 
+                                    }"
+                                    @click="goToTestimonial(index)"
+                                    :disabled="isTransitioning"
+                                ></button>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+                
+                <!-- Auto-slide Status -->
+                <div class="mt-4 text-sm text-gray-600 flex items-center justify-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span x-text="isPaused ? 'Auto-slide paused' : 'Auto-slide enabled'"></span>
+                    <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full" x-text="`${currentTestimonial + 1} / ${testimonials.length}`"></span>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="mt-6 max-w-md mx-auto">
+                    <div class="h-1 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-indigo-500 rounded-full transition-all duration-1000 ease-linear" 
+                             :style="`width: ${((currentTestimonial + 1) / testimonials.length) * 100}%`"
+                             x-show="!isPaused && !isTransitioning"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Pricing Plans</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: #111827;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            color: #22d3ee;
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        @media (min-width: 640px) {
+            .plans-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .plans-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .plan-card {
+            background: #1f2937;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(34, 211, 238, 0.2);
+        }
+        
+        .plan-card.most-popular {
+            border: 2px solid #22d3ee;
+            position: relative;
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22d3ee;
+            color: #111827;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .plan-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .plan-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #f9fafb;
+        }
+        
+        .plan-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #22d3ee;
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-desc {
+            color: #d1d5db;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .plan-button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #22d3ee;
+            color: #111827;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .plan-button:hover {
+            background: #06b6d4;
+        }
+        
+        .plan-features {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-list {
+            list-style: none;
+            flex-grow: 1;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .feature-icon {
+            color: #22d3ee;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .intro-text {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #22d3ee;
+            font-weight: 600;
+        }
+        
+        .main-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #f9fafb;
+        }
+        
+        .background-effect {
+            position: absolute;
+            inset: 0;
+            max-width: 100%;
+            height: 800px;
+            margin: 0 auto;
+            background: linear-gradient(
+                106.89deg,
+                rgba(192, 132, 252, 0.11) 15.73%,
+                rgba(14, 165, 233, 0.41) 15.74%,
+                rgba(232, 121, 249, 0.26) 56.49%,
+                rgba(79, 70, 229, 0.4) 115.91%
+            );
+            filter: blur(118px);
+            z-index: -1;
+        }
+        
+        .section-container {
+            position: relative;
+            padding: 3rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 640px) {
+            .plans-grid {
+                gap: 1.5rem;
+            }
+            
+            .plan-card {
+                border-radius: 10px;
+            }
+            
+            .plan-header, .plan-features {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pricing Plans</h1>
+        <p class="intro-text">Choose the package that best fits your needs. All packages can be customized through WhatsApp consultation.</p>
+        
+        <section x-data="{ 
+            plans: [
+                {
+                    name: 'Paket A1',
+                    desc: 'Paket Prasmanan dengan harga Rp.30.000 / Pax',
+                    price: 30,
+                    isMostPop: true,
+                    features: [
+                        'Curabitur faucibus',
+                        'massa ut pretium maximus',
+                        'Sed posuere nisi',
+                        'Pellentesque eu nibh et neque',
+                        'Suspendisse a leo',
+                        'Praesent quis venenatis ipsum',
+                        'Duis non diam vel tortor',
+                    ],
+                },
+                {
+                    name: 'Paket A2',
+                    desc: 'Paket Prasmanan dengan harga Rp.40.000 / Pax',
+                    price: 40,
+                    isMostPop: false,
+                    features: [
+                        'Curabitur faucibus',
+                        'massa ut pretium maximus',
+                        'Sed posuere nisi',
+                        'Pellentesque eu nibh et neque',
+                        'Suspendisse a leo',
+                        'Praesent quis venenatis ipsum',
+                        'Duis non diam vel tortor',
+                    ],
+                },
+                {
+                    name: 'Paket B1',
+                    desc: 'Paket Prasmanan dengan harga Rp.40.000 / Pax',
+                    price: 40,
+                    isMostPop: false,
+                    features: [
+                        'Curabitur faucibus',
+                        'massa ut pretium maximus',
+                        'Sed posuere nisi',
+                        'Pellentesque eu nibh et neque',
+                        'Suspendisse a leo',
+                        'Praesent quis venenatis ipsum',
+                        'Duis non diam vel tortor',
+                    ],
+                },
+                {
+                    name: 'Paket B2',
+                    desc: 'Paket Prasmanan dengan harga Rp.40.000 / Pax',
+                    price: 40,
+                    isMostPop: false,
+                    features: [
+                        'Curabitur faucibus',
+                        'massa ut pretium maximus',
+                        'Sed posuere nisi',
+                        'Pellentesque eu nibh et neque',
+                        'Suspendisse a leo',
+                        'Praesent quis venenatis ipsum',
+                        'Duis non diam vel tortor',
+                    ],
+                },
+                {
+                    name: 'Paket C1',
+                    desc: 'Paket Prasmanan dengan harga Rp.45.000 / Pax',
+                    price: 45,
+                    isMostPop: false,
+                    features: [
+                        'Curabitur faucibus',
+                        'massa ut pretium maximus',
+                        'Sed posuere nisi',
+                        'Pellentesque eu nibh et neque',
+                        'Suspendisse a leo',
+                        'Praesent quis venenatis ipsum',
+                        'Duis non diam vel tortor',
+                    ],
+                },
+                {
+                    name: 'Paket C2',
+                    desc: 'Paket Prasmanan dengan harga Rp.50.000 / Pax',
+                    price: 50,
+                    isMostPop: false,
+                    features: [
+                        'Curabitur faucibus',
+                        'massa ut pretium maximus',
+                        'Sed posuere nisi',
+                        'Pellentesque eu nibh et neque',
+                        'Suspendisse a leo',
+                        'Praesent quis venenatis ipsum',
+                        'Duis non diam vel tortor',
+                    ],
+                },
+            ]
+        }">
+            <div class="section-container">
+                <div class="background-effect"></div>
+                
+                <div class="text-center space-y-3 px-4">
+                    <h3 class="section-title">Daftar Harga</h3>
+                    <h2 class="main-title">Pilih Paket Sesuai kebutuhan Anda</h2>
+                    <p class="intro-text">
+                        Paket dapat di konsultasikan melalui whatsapp dengan klik tombol konsultasikan
+                    </p>
+                </div>
+                
+                <div class="plans-grid">
+                    <template x-for="(item, index) in plans" :key="index">
+                        <div class="plan-card" :class="{'most-popular': item.isMostPop}">
+                            <div x-show="item.isMostPop" class="popular-badge">Most Popular</div>
+                            
+                            <div class="plan-header">
+                                <div class="plan-name" x-text="item.name"></div>
+                                <div class="plan-price">
+                                    <span x-text="`Rp.${item.price}rb`"></span>
+                                    <span class="text-lg font-normal">/pax</span>
+                                </div>
+                                <p class="plan-desc" x-text="item.desc"></p>
+                                <button class="plan-button">
+                                    Konsultasikan
+                                </button>
+                            </div>
+                            
+                            <div class="plan-features">
+                                <ul class="feature-list">
+                                    <template x-for="(feature, fIndex) in item.features" :key="fIndex">
+                                        <li class="feature-item">
+                                            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span x-text="feature"></span>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Alpine.js is already included via CDN
+        // The component functionality is handled by the x-data directive
+    </script>
+</body>
+</html>

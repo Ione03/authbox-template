@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Section with Google Maps</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            border-radius: 12px;
+        }
+        .map-container iframe {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            border: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen text-white">
+    <section class="relative py-16 lg:py-28 bg-gray-900">
+        <!-- Background Effect -->
+        <div class="absolute inset-0 max-w-lg h-[800px] mx-auto sm:max-w-3xl sm:h-[400px] blur-[118px] opacity-20" 
+             style="background: linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%);">
+        </div>
+        
+        <div class="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header Section -->
+            <div class="max-w-lg space-y-3 mx-auto text-center mb-12">
+                <h3 class="text-cyan-400 font-semibold">
+                    Contact
+                </h3>
+                <p class="text-white text-3xl font-semibold sm:text-4xl">
+                    Get in touch
+                </p>
+                <p class="text-gray-300">
+                    We'd love to hear from you! Please fill out the form below or visit us.
+                </p>
+            </div>
+            
+            <!-- Two Column Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                <!-- Contact Form Column -->
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg h-full">
+                    <form onsubmit="event.preventDefault()" class="space-y-5">
+                        <div>
+                            <label class="font-medium text-gray-700">
+                                Full name
+                            </label>
+                            <input
+                                type="text"
+                                required
+                                class="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border border-gray-300 focus:border-cyan-500 shadow-sm rounded-lg transition-colors"
+                            />
+                        </div>
+                        <div>
+                            <label class="font-medium text-gray-700">
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                required
+                                class="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border border-gray-300 focus:border-cyan-500 shadow-sm rounded-lg transition-colors"
+                            />
+                        </div>
+                        <div>
+                            <label class="font-medium text-gray-700">
+                                Phone
+                            </label>
+                            <input
+                                type="tel"
+                                class="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border border-gray-300 focus:border-cyan-500 shadow-sm rounded-lg transition-colors"
+                            />
+                        </div>
+                        <div>
+                            <label class="font-medium text-gray-700">
+                                Message
+                            </label>
+                            <textarea 
+                                required 
+                                class="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border border-gray-300 focus:border-cyan-500 shadow-sm rounded-lg transition-colors"
+                            ></textarea>
+                        </div>
+                        <button
+                            class="w-full px-4 py-3 text-white font-medium bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700 rounded-lg duration-150 transition-colors"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Google Maps Column -->
+                <div class="h-full flex flex-col">
+                    <!-- Map -->
+                    <div class="map-container flex-grow">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.800350188318!2d107.61015731431763!3d-6.907718169732153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e639b77db16d%3A0x7b8426c2b3c0e9d2!2sBandung%20City%2C%20West%20Java%2C%20Indonesia!5e0!3m2!1sen!2sus!4v1641234567890!5m2!1sen!2sus" 
+                            allowfullscreen="" 
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div class="bg-gray-800 p-6 rounded-xl mt-6 lg:mt-8">
+                        <h3 class="text-xl font-semibold text-white mb-4">Contact Information</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-cyan-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-300">123 Business Avenue, Suite 100, City, State 12345</span>
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-cyan-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                                </svg>
+                                <span class="text-gray-300">+1 (555) 123-4567</span>
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-cyan-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                                <span class="text-gray-300">info@example.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

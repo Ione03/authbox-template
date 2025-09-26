@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Auth Modal — Tailwind + Alpine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+
+  <!-- Trigger Button -->
+  <button 
+    @click="open = true" 
+    class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+    x-data="{open:false}"
+    x-on:click="$dispatch('open-modal')"
+  >
+    Open Auth Modal
+  </button>
+
+  <!-- Modal Root -->
+  <div 
+    x-data="{open:false, mode:'login'}" 
+    @open-modal.window="open=true" 
+    x-show="open"
+    x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true"
+  >
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-gray-900/50" @click="open=false"></div>
+
+    <!-- Panel -->
+    <div 
+      class="relative bg-white w-full max-w-md mx-auto rounded-lg shadow-lg p-6"
+      @keydown.escape.window="open=false"
+      x-trap.inert.noscroll="open"
+    >
+      <!-- Close Button -->
+      <button 
+        @click="open=false" 
+        class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+        aria-label="Close modal"
+      >
+        ✕
+      </button>
+
+      <!-- Tabs -->
+      <div class="flex border-b border-gray-200 mb-4">
+        <button 
+          :class="mode==='login' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'" 
+          class="flex-1 py-2 text-center border-b-2 font-medium focus:outline-none"
+          @click="mode='login'"
+        >
+          Login
+        </button>
+        <button 
+          :class="mode==='register' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'" 
+          class="flex-1 py-2 text-center border-b-2 font-medium focus:outline-none"
+          @click="mode='register'"
+        >
+          Create Account
+        </button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form x-show="mode==='login'" @submit.prevent="alert('Logging in...')" class="space-y-4">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <input id="email" type="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <input id="password" type="password" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-500">Login</button>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form x-show="mode==='register'" @submit.prevent="alert('Creating account...')" class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+          <input id="name" type="text" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label for="email-reg" class="block text-sm font-medium text-gray-700">Email</label>
+          <input id="email-reg" type="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label for="password-reg" class="block text-sm font-medium text-gray-700">Password</label>
+          <input id="password-reg" type="password" required minlength="6" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-500">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

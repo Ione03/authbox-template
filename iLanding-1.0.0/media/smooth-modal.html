@@ -1,0 +1,51 @@
+
+<div class="modal fade" id="myModal" tabindex="-1" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mode Edit - [Khusus Admin Website]</h5>
+                
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="infoForm">
+                    <p class="text-secondary">
+                        Update data berikut, maka pengunjung website langsung melihat perubahan!
+                        Silahkan <a href="#">Logout</a> untuk melihat perubahan tersebut.
+                    </p>
+                    <input type="hidden" id="modalTitle" name="modalTitle">
+                    <input type="hidden" id="modalCode" name="modalCode">
+                    <input type="hidden" id="modalType" name="modalType">
+                    <!-- hidden -->
+                    <div class="row gy-2">
+                        <div class="col-md-12" id="modal-text">
+                            <input class="form-control" name="value_text" id="value_text" placeholder="Ubah Data" required="" type="text"/>
+                        </div>
+                        <!-- <div class="col-md-12">
+                            <input class="form-control" name="email" placeholder="Your Email" required="" type="email"/>
+                        </div> -->
+                        <div class="col-md-12" id="modal-textarea">
+                            <textarea class="form-control" name="value_textarea" id="value_textarea" placeholder="Ubah Data" required="" rows="6"></textarea>
+                        </div>
+
+                        <div class="col-md-12" id="modal-image">
+                            <input type="file" name="value_image" id="value_image" accept="image/*" class="form-control">
+                        </div>
+                    </div>                    
+                    <hr>
+                    <!-- <a href="#" onclick="send_request_ajax()" id="sendRequest" class="submit-btn">Submit</a> -->
+                     <button type="button" class="btn btn-primary float-end" 
+                        onclick="send_request_ajax()" data-bs-dismiss="modal">
+                        Submit
+                    </button>
+                    <!-- <button id="sendRequest">Send Request</button> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+    const modalBtn = document.getElementById('sendRequest');
+    console.log('modal Btn ' + modalBtn);
+</script> -->

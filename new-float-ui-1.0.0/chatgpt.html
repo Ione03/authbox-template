@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aurora — Modern Landing Page</title>
+  <meta name="description" content="Aurora — stylish, responsive, accessible landing page template (HTML/CSS/JS)" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    /* =========================
+       Aurora — Single-file CSS
+       =========================
+       - Mobile-first
+       - CSS variables for theming
+       - Accessible focus styles
+    */
+    :root{
+      --bg: #0f1724;
+      --card: #0b1220;
+      --muted: #9aa6bf;
+      --text: #e6eef8;
+      --accent: #6ee7b7; /* mint */
+      --accent-2: #7dd3fc; /* sky */
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+      --shadow: 0 8px 30px rgba(2,6,23,0.6);
+      --ff: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --maxw: 1080px;
+    }
+
+    /* Light theme (toggle by data-theme="light" on <html>) */
+    html[data-theme="light"]{
+      --bg: #f6fafc;
+      --card: #ffffff;
+      --muted: #526075;
+      --text: #071021;
+      --accent: #0ea5a4;
+      --accent-2: #0369a1;
+      --glass: rgba(2,6,23,0.03);
+      --shadow: 0 12px 30px rgba(10,20,30,0.08);
+    }
+
+    /* Respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce){
+      :root { scroll-behavior: auto; }
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* Reset + base */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--ff);
+      background: linear-gradient(180deg,var(--bg),color-mix(in srgb, var(--bg) 90%, black 10%));
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      -webkit-text-size-adjust:100%;
+      padding:24px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--maxw);
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:28px;
+    }
+
+    /* Brand */
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      text-decoration:none;
+      color:var(--text);
+    }
+    .logo{
+      width:44px;height:44px;
+      display:grid;place-items:center;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      box-shadow:var(--shadow);
+      flex:0 0 44px;
+    }
+    .brand h1{font-size:1.05rem;margin:0;letter-spacing:0.2px}
+    .brand p{font-size:0.78rem;margin:0;color:var(--muted)}
+
+    /* Nav */
+    nav{display:flex;gap:18px;align-items:center}
+    .nav-links{display:none}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#042028;font-weight:600;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;
+      box-shadow:0 6px 18px rgba(12,46,40,0.18);
+      text-decoration:none;
+    }
+    .ghost{
+      background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--text);
+    }
+
+    /* Mobile top row */
+    .top-row{display:flex;align-items:center;gap:12px}
+
+    /* Hero */
+    .hero{
+      display:grid;
+      gap:22px;
+      grid-template-columns:1fr;
+      align-items:start;
+      margin-bottom:28px;
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:20px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .hero-inner{
+      display:grid;
+      gap:14px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      font-weight:600;
+      color:var(--accent);
+      background:linear-gradient(90deg, rgba(110,231,183,0.08), rgba(125,211,252,0.06));
+      padding:6px 10px;border-radius:999px;font-size:0.86rem;
+      width:max-content;
+    }
+
+    .title{
+      font-size:clamp(1.6rem,3.6vw,2.4rem);
+      margin:0;
+      line-height:1.02;
+      letter-spacing:-0.02em;
+      font-weight:800;
+      color:var(--text);
+    }
+    .lead{color:var(--muted);margin:0;font-size:1rem}
+
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+
+    .hero-figure{
+      border-radius:12px;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:14px;
+      display:grid;
+      place-items:center;
+    }
+
+    /* Feature grid */
+    .grid{
+      display:grid;
+      gap:14px;
+    }
+
+    .features{
+      grid-template-columns:repeat(1,1fr);
+    }
+
+    .feature{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .feature .icon{
+      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#022128;
+      flex:0 0 56px;
+    }
+    .feature h3{margin:0;font-size:1.02rem}
+    .feature p{margin:6px 0 0;color:var(--muted);font-size:0.95rem}
+
+    /* Portfolio grid */
+    .portfolio{
+      display:grid;
+      gap:12px;
+      grid-template-columns:repeat(1,1fr);
+    }
+    .work{
+      display:block;
+      border-radius:12px;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:14px;
+      text-decoration:none;color:inherit;
+      transition:transform .28s ease, box-shadow .28s ease;
+    }
+    .work:hover{ transform:translateY(-6px); box-shadow: 0 18px 50px rgba(2,6,23,0.45) }
+    .work .thumb{height:160px;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),var(--accent));display:flex;align-items:center;justify-content:center;color:#042028;font-weight:700;font-size:1.1rem;margin-bottom:10px}
+
+    /* Pricing cards */
+    .pricing{
+      display:grid;
+      gap:12px;
+      grid-template-columns:1fr;
+    }
+    .price{
+      padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    }
+    .price h4{margin:0}
+    .price .price-amount{font-size:1.8rem;color:var(--accent);font-weight:800;margin-top:6px}
+    .price ul{padding-left:18px;margin:10px 0;color:var(--muted)}
+
+    /* FAQ */
+    .faq-item{border-radius:10px;padding:12px;background:var(--card);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+    .faq-answer{padding:12px 14px;color:var(--muted);display:none}
+    .faq-item[aria-expanded="true"] + .faq-answer{display:block}
+
+    /* Contact form */
+    form{display:grid;gap:12px}
+    input,textarea,select{
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.04);
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      color:var(--text);
+      font:inherit;
+    }
+    input:focus,textarea:focus{outline:3px solid color-mix(in srgb,var(--accent) 20%, transparent); border-color:var(--accent-2)}
+
+    /* Footer */
+    footer{color:var(--muted);font-size:0.92rem;padding:18px 8px;margin-top:28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+
+    /* Utilities */
+    .muted{color:var(--muted)}
+    .small{font-size:0.88rem}
+    .center{display:grid;place-items:center}
+
+    /* Responsive breakpoints */
+    @media(min-width:720px){
+      .nav-links{display:flex;gap:12px;align-items:center}
+      .hero{grid-template-columns:1fr 420px}
+      .features{grid-template-columns:repeat(2,1fr)}
+      .portfolio{grid-template-columns:repeat(2,1fr)}
+      .pricing{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(min-width:1080px){
+      .wrap{padding:10px}
+      .hero{gap:34px}
+    }
+
+    /* Focus visible */
+    :focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 30%, transparent);outline-offset:3px;border-radius:8px}
+
+    /* small helper animations */
+    .fade-up{animation:fadeUp .7s cubic-bezier(.2,.9,.2,1) both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <!-- Toggle data-theme to "light" for light mode -->
+  <div class="wrap" role="main">
+    <header class="fade-up" aria-label="Top navigation">
+      <a class="brand" href="#" aria-label="Aurora homepage">
+        <div class="logo" aria-hidden="true">
+          <!-- simple aurora-ish SVG mark -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#6ee7b7"/><stop offset="1" stop-color="#7dd3fc"/></linearGradient></defs>
+            <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#g)" />
+            <path d="M7 14c1.8-3 4-4 7-4" stroke="#042028" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Aurora</h1>
+          <p class="small">Design · Dev · Product</p>
+        </div>
+      </a>
+
+      <nav>
+        <div class="top-row">
+          <button id="menuBtn" class="ghost" aria-expanded="false" aria-controls="mainNav" title="Toggle menu">Menu</button>
+        </div>
+
+        <div id="mainNav" class="nav-links" role="navigation" aria-label="Main navigation">
+          <a href="#features" class="ghost">Features</a>
+          <a href="#portfolio" class="ghost">Work</a>
+          <a href="#pricing" class="ghost">Pricing</a>
+          <a href="#contact" class="btn">Contact</a>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center">
+          <button id="themeToggle" class="ghost" aria-pressed="false" title="Toggle theme">🌙</button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="card hero-inner fade-up" style="--delay:0ms">
+        <div class="eyebrow">New • UI kit</div>
+        <h2 class="title">Beautiful UI components that ship ready to use.</h2>
+        <p class="lead">Ship faster with a modern, accessible landing page template. Includes responsive components, light/dark theme, and production-ready markup — tailored for designers and developers.</p>
+
+        <div class="cta-row" role="region" aria-label="Call to action">
+          <a class="btn" href="#contact">Get started</a>
+          <a class="ghost" href="#portfolio">See examples</a>
+        </div>
+
+        <div style="margin-top:12px;color:var(--muted)">
+          <strong>Trusted by</strong>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap" aria-hidden="true">
+            <div style="background:var(--glass);padding:6px 10px;border-radius:8px">Acme</div>
+            <div style="background:var(--glass);padding:6px 10px;border-radius:8px">Orbit</div>
+            <div style="background:var(--glass);padding:6px 10px;border-radius:8px">Pixel</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-figure card fade-up" aria-hidden="false" style="--delay:60ms">
+        <!-- A simple mock dashboard as SVG / markup -->
+        <div style="width:100%;max-width:360px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div style="font-weight:700">Overview</div>
+            <div class="small muted">April 2025</div>
+          </div>
+
+          <div style="background:linear-gradient(90deg,var(--accent-2),var(--accent));height:110px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#042028;font-weight:800">Revenue +32%</div>
+
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <div style="flex:1;padding:8px;background:var(--card);border-radius:8px">
+              <div class="small muted">Visitors</div>
+              <div style="font-weight:700">24.6k</div>
+            </div>
+            <div style="flex:1;padding:8px;background:var(--card);border-radius:8px">
+              <div class="small muted">Conversion</div>
+              <div style="font-weight:700">5.2%</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="card grid features fade-up" aria-labelledby="featuresHeading" style="margin-bottom:18px">
+      <h3 id="featuresHeading">What you get</h3>
+
+      <div class="feature">
+        <div class="icon" aria-hidden="true">
+          <!-- calendar-like icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="5" width="18" height="16" rx="3" fill="#042028" opacity="0.12"></rect>
+            <path d="M8 3v4M16 3v4M3 11h18" stroke="#042028" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Components library</h3>
+          <p>Modular components (cards, inputs, modals, navs) built with accessibility in mind. Easy to copy into projects.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="icon" aria-hidden="true">
+          <!-- paint -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="8" r="3" fill="#042028" opacity="0.12"></circle>
+            <path d="M4 20c1.5-4 7-2 9-2s7-2 7-7a7 7 0 1 0-14 0" stroke="#042028" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Design tokens</h3>
+          <p>Color variables, spacing scale, and typography system — everything you need to keep visual consistency across pages and components.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="icon" aria-hidden="true">
+          <!-- speed -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12h2l2-4 4 8 6-10 4 4" stroke="#042028" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Performance</h3>
+          <p>Small footprint, critical CSS included, and sensible animations — fast on mobile and desktop.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="icon" aria-hidden="true">
+          <!-- shield -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2l8 4v6c0 6-4 10-8 12-4-2-8-6-8-12V6l8-4z" stroke="#042028" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Accessibility</h3>
+          <p>Semantic markup, keyboard interaction, and color contrast considered — built to be inclusive.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section id="portfolio" class="grid portfolio fade-up" aria-labelledby="portfolioHeading" style="margin-bottom:18px">
+      <h3 id="portfolioHeading">Selected Work</h3>
+
+      <a class="work" href="#" aria-label="Project Nova">
+        <div class="thumb">Nova UI — Dashboard</div>
+        <div><strong>Nova</strong></div>
+        <div class="muted small">A clean admin dashboard for e-commerce analytics</div>
+      </a>
+
+      <a class="work" href="#" aria-label="Project Lens">
+        <div class="thumb">Lens — Marketing</div>
+        <div><strong>Lens</strong></div>
+        <div class="muted small">Landing pages and growth-focused UX experiments</div>
+      </a>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" class="grid pricing fade-up" aria-labelledby="pricingHeading" style="margin-bottom:18px">
+      <h3 id="pricingHeading">Pricing</h3>
+
+      <div class="price card">
+        <h4>Starter</h4>
+        <div class="price-amount">$0 <span class="small muted">forever</span></div>
+        <ul>
+          <li>Full template</li>
+          <li>Community support</li>
+        </ul>
+        <button class="btn" onclick="alert('You picked Starter — great!')">Get started</button>
+      </div>
+
+      <div class="price card">
+        <h4>Team</h4>
+        <div class="price-amount">$29 <span class="small muted">/ month</span></div>
+        <ul>
+          <li>Private builds</li>
+          <li>Email support</li>
+        </ul>
+        <button class="btn" onclick="alert('You picked Team — nice choice!')">Buy team</button>
+      </div>
+
+      <div class="price card">
+        <h4>Enterprise</h4>
+        <div class="price-amount">Custom</div>
+        <ul>
+          <li>SLA & onboarding</li>
+          <li>Design system export</li>
+        </ul>
+        <button class="btn" onclick="alert('Contact sales — thanks!')">Contact</button>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="card fade-up" aria-labelledby="faqHeading" style="margin-bottom:18px">
+      <h3 id="faqHeading">FAQ</h3>
+      <div style="display:grid;gap:8px">
+        <div>
+          <button class="faq-item" aria-expanded="false">How do I customize the theme?</button>
+          <div class="faq-answer">Open the CSS variables at the top of the file and change color tokens (e.g., --accent). Toggle light mode by setting <code>document.documentElement.dataset.theme = 'light'</code>.</div>
+        </div>
+
+        <div>
+          <button class="faq-item" aria-expanded="false">Is this accessible?</button>
+          <div class="faq-answer">Yes — semantic elements, keyboard navigation, and focus states are provided. Use audits like Lighthouse or Axe for verification.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="card fade-up" aria-labelledby="contactHeading" style="margin-bottom:8px">
+      <h3 id="contactHeading">Contact</h3>
+      <p class="muted small">Send a message — this demo uses client-side validation and a fake submit for demo purposes.</p>
+
+      <form id="contactForm" novalidate>
+        <div style="display:grid;grid-template-columns:1fr;gap:8px">
+          <label for="name" class="small muted">Name</label>
+          <input id="name" name="name" type="text" required placeholder="Your name" />
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr;gap:8px">
+          <label for="email" class="small muted">Email</label>
+          <input id="email" name="email" type="email" required placeholder="name@company.com" />
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr;gap:8px">
+          <label for="message" class="small muted">Message</label>
+          <textarea id="message" name="message" required rows="4" placeholder="Tell us about your project"></textarea>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center">
+          <button type="submit" class="btn">Send message</button>
+          <div id="formStatus" class="small muted" aria-live="polite"></div>
+        </div>
+      </form>
+    </section>
+
+    <footer class="fade-up">
+      <div>© <strong>Aurora</strong> <span class="muted">2025</span></div>
+      <div class="muted small">Made with ♥ — responsive, accessible, and ready.</div>
+    </footer>
+  </div>
+
+  <script>
+    /* =========================
+       Aurora — Single-file JS
+       =========================
+       - Theme toggle
+       - Mobile menu
+       - FAQ accordion
+       - Simple form validation & fake submit
+    */
+
+    (function(){
+      const html = document.documentElement;
+      const themeBtn = document.getElementById('themeToggle');
+      const menuBtn = document.getElementById('menuBtn');
+      const mainNav = document.getElementById('mainNav');
+      const faqButtons = document.querySelectorAll('.faq-item');
+      const contactForm = document.getElementById('contactForm');
+      const formStatus = document.getElementById('formStatus');
+
+      // Initialize theme from localStorage or system preference
+      const preferred = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      if(preferred === 'light') html.dataset.theme = 'light';
+      else html.removeAttribute('data-theme');
+
+      function updateThemeUI(){
+        const isLight = html.dataset.theme === 'light';
+        themeBtn.textContent = isLight ? '☀️' : '🌙';
+        themeBtn.setAttribute('aria-pressed', String(isLight));
+      }
+      updateThemeUI();
+
+      themeBtn.addEventListener('click', () => {
+        const isLight = html.dataset.theme === 'light';
+        if(isLight) {
+          html.removeAttribute('data-theme');
+          localStorage.setItem('theme','dark');
+        } else {
+          html.dataset.theme = 'light';
+          localStorage.setItem('theme','light');
+        }
+        updateThemeUI();
+      });
+
+      // Mobile menu (simple toggle)
+      menuBtn.addEventListener('click', () => {
+        const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', String(!expanded));
+        if(!expanded){
+          mainNav.style.display = 'flex';
+          mainNav.style.flexDirection = 'column';
+          mainNav.style.position = 'absolute';
+          mainNav.style.right = '24px';
+          mainNav.style.top = '74px';
+          mainNav.style.background = 'var(--card)';
+          mainNav.style.padding = '12px';
+          mainNav.style.borderRadius = '10px';
+          mainNav.style.zIndex = 60;
+        } else {
+          mainNav.style.display = '';
+          mainNav.style.position = '';
+          mainNav.style.background = '';
+          mainNav.style.padding = '';
+          mainNav.style.top = '';
+        }
+      });
+
+      // Close menu on outside click (mobile)
+      document.addEventListener('click', (e) => {
+        if(!mainNav.contains(e.target) && !menuBtn.contains(e.target) && window.innerWidth < 720) {
+          menuBtn.setAttribute('aria-expanded','false');
+          mainNav.style.display = '';
+        }
+      });
+
+      // FAQ accordion
+      faqButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          // collapse others
+          faqButtons.forEach(b => b.setAttribute('aria-expanded', 'false'));
+          if(!expanded) btn.setAttribute('aria-expanded','true');
+        });
+      });
+
+      // Form validation + fake "submit"
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        formStatus.textContent = '';
+        // simple HTML5 validity check
+        if(!contactForm.checkValidity()){
+          // show first invalid field
+          const firstInvalid = contactForm.querySelector(':invalid');
+          firstInvalid.focus();
+          formStatus.textContent = 'Please fill required fields.';
+          formStatus.style.color = 'var(--accent)';
+          return;
+        }
+
+        // Show fake loading + success
+        const sendBtn = contactForm.querySelector('button[type="submit"]');
+        sendBtn.disabled = true;
+        const prevText = sendBtn.textContent;
+        sendBtn.textContent = 'Sending...';
+
+        // simulate network latency (short)
+        setTimeout(() => {
+          sendBtn.disabled = false;
+          sendBtn.textContent = prevText;
+          contactForm.reset();
+          formStatus.textContent = 'Thanks — message sent (demo).';
+          formStatus.style.color = 'var(--accent)';
+        }, 850);
+      });
+
+      // Small entrance animation staggering (CSS handles most)
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.fade-up').forEach((el, i) => {
+          el.style.animationDelay = `${i * 60}ms`;
+        });
+      });
+
+      // Accessibility: allow "Enter" to toggle FAQ when focused
+      faqButtons.forEach(btn => {
+        btn.addEventListener('keydown', (ev) => {
+          if(ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            btn.click();
+          }
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>

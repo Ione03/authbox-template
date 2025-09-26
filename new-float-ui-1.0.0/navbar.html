@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Component</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header Component -->
+    <header class="text-base lg:text-sm" x-data="{
+        mobileMenuOpen: false,
+        avatarMenuOpen: false,
+        navigation: [
+            { title: 'Pro version', path: 'javascript:void(0)' },
+            { title: 'Upgrade', path: 'javascript:void(0)' },
+            { title: 'Support', path: 'javascript:void(0)' }
+        ],
+        submenuNav: [
+            { title: 'Overview', path: 'javascript:void(0)' },
+            { title: 'Integration', path: 'javascript:void(0)' },
+            { title: 'Billing', path: 'javascript:void(0)' },
+            { title: 'Transactions', path: 'javascript:void(0)' },
+            { title: 'Plans', path: 'javascript:void(0)' }
+        ],
+        avatarNavigation: [
+            { title: 'Dashboard', path: 'javascript:void(0)' },
+            { title: 'Analytics', path: 'javascript:void(0)' },
+            { title: 'Profile', path: 'javascript:void(0)' },
+            { title: 'Settings', path: 'javascript:void(0)' }
+        ]
+    }">
+        <!-- Main Header -->
+        <div class="bg-white items-center gap-x-14 px-4 max-w-screen-xl mx-auto lg:flex lg:px-8 lg:static" 
+             :class="mobileMenuOpen ? 'h-full fixed inset-x-0' : ''">
+            
+            <!-- Logo and Mobile Menu Button -->
+            <div class="flex items-center justify-between py-3 lg:py-5 lg:block">
+                <a href="javascript:void(0)">
+                    <img src="https://www.floatui.com/logo.svg" width="120" height="50" alt="Float UI logo">
+                </a>
+                <div class="lg:hidden">
+                    <button class="text-gray-500 hover:text-gray-800" 
+                            @click="mobileMenuOpen = !mobileMenuOpen">
+                        <template x-if="mobileMenuOpen">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </template>
+                        <template x-if="!mobileMenuOpen">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path fill-rule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm8.25 5.25a.75.75 0 01.75-.75h8.25a.75.75 0 010 1.5H12a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+                            </svg>
+                        </template>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="nav-menu flex-1 pb-28 mt-8 overflow-y-auto max-h-screen lg:block lg:overflow-visible lg:pb-0 lg:mt-0" 
+                 :class="mobileMenuOpen ? '' : 'hidden'">
+                <ul class="items-center space-y-6 lg:flex lg:space-x-6 lg:space-y-0">
+                    <!-- Search Form -->
+                    <form @submit.prevent class="flex-1 items-center justify-start pb-4 lg:flex lg:pb-0">
+                        <div class="flex items-center gap-1 px-2 border rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input type="text" placeholder="Search" class="w-full px-2 py-2 text-gray-500 bg-transparent rounded-md outline-none">
+                        </div>
+                    </form>
+                    
+                    <!-- Navigation Links -->
+                    <template x-for="(item, idx) in navigation" :key="idx">
+                        <li>
+                            <a :href="item.path" class="block text-gray-700 hover:text-gray-900" x-text="item.title"></a>
+                        </li>
+                    </template>
+                    
+                    <!-- Avatar Menu -->
+                    <div class="relative border-t lg:border-none" x-data="{ avatarOpen: false }">
+                        <div>
+                            <button class="hidden w-10 h-10 outline-none rounded-full ring-offset-2 ring-gray-200 lg:focus:ring-2 lg:block"
+                                    @click="avatarOpen = !avatarOpen"
+                                    @click.outside="avatarOpen = false">
+                                <img src="https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg" class="w-full h-full rounded-full">
+                            </button>
+                        </div>
+                        <ul class="bg-white top-14 right-0 mt-6 space-y-6 lg:absolute lg:border lg:rounded-md lg:w-52 lg:shadow-md lg:space-y-0 lg:mt-0" 
+                            :class="avatarOpen ? '' : 'lg:hidden'">
+                            <template x-for="(item, idx) in avatarNavigation" :key="idx">
+                                <li>
+                                    <a :href="item.path" class="block text-gray-600 hover:text-gray-900 lg:hover:bg-gray-50 lg:p-3" x-text="item.title"></a>
+                                </li>
+                            </template>
+                            <button class="block w-full text-justify text-gray-600 hover:text-gray-900 border-t py-3 lg:hover:bg-gray-50 lg:p-3">
+                                Logout
+                            </button>
+                        </ul>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Submenu Navigation -->
+        <!-- <nav class="border-b">
+            <ul class="flex items-center gap-x-3 max-w-screen-xl mx-auto px-4 overflow-x-auto lg:px-8">
+                <template x-for="(item, idx) in submenuNav" :key="idx">
+                    <li class="py-1" :class="idx == 0 ? 'border-b-2 border-indigo-600' : ''">
+                        <a :href="item.path" class="block py-2 px-3 rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 duration-150" x-text="item.title"></a>
+                    </li>
+                </template>
+            </ul>
+        </nav> -->
+    </header>
+
+    <!-- Demo Content -->
+    <div class="max-w-screen-xl mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold text-gray-800">Welcome to the Demo Page</h1>
+        <p class="text-gray-600 mt-2">This is a demonstration of the header component converted from React to Alpine.js.</p>
+        
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-semibold text-gray-800">Mobile Menu</h2>
+                <p class="text-gray-600 mt-2">On mobile devices, click the hamburger menu icon to toggle the navigation.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-semibold text-gray-800">Avatar Menu</h2>
+                <p class="text-gray-600 mt-2">On desktop, click the avatar image to open the dropdown menu.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

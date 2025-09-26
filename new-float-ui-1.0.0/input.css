@@ -1,0 +1,8 @@
+@import "tailwindcss";
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+/* @plugin "daisyui"; */
+@plugin "@designbycode/tailwindcss-text-stroke";
+/* Define a custom variant for dark mode */
+@custom-variant dark (&:is(.dark *));

@@ -28,8 +28,9 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
   <link rel="stylesheet" href="hover-click.css">
-
-  <!-- <link rel="stylesheet" href="inline-dropdown.css">
+ <link rel="stylesheet" href="splash-screen.css">
+ <!--
+   <link rel="stylesheet" href="inline-dropdown.css">
   <link rel="stylesheet" href="inline-modal.css"> -->
 
 
@@ -46,7 +47,16 @@
 
 <body class="index-page ">
 
-  <!-- <header id="header" class="header d-flex justify-content-center align-items-center fixed-top"> -->
+  <!-- Page loading -->
+  <div class="page-loading" id="loadingOverlay" style="display: none;">
+      <div class="spinner"></div>
+  </div>
+	
+	<!-- welcome
+  <span id="splash-overlay" class="splash"></span>
+  <span id="welcome" class="z-depth-4"></span>
+
+  <header id="header" class="header d-flex justify-content-center align-items-center fixed-top"> -->
   <header id="header" class="header d-flex justify-content-center align-items-center sticky-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
@@ -1266,6 +1276,7 @@
   <script src="assets/js/main.js"></script>
   <script src="hover-click.js"></script>
   <script src="swiper-config.js"></script>
+  <script src="splash-screen.js"></script>
   
 
   <!-- Bootstrap 5 JS Bundle (includes Popper) -->
@@ -1277,6 +1288,8 @@
       modal.show();
     });
   </script> -->
+
+ 
 </body>
 
 </html>
