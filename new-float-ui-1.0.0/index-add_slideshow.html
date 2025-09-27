@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link href="output.css" rel="stylesheet">
     <!-- <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" /> -->
@@ -24,6 +25,9 @@
     <link rel="stylesheet" href="hover-click.css" />
     <link rel="stylesheet" href="splash-screen.css" />
     <link rel="stylesheet" href="slideshow-style.css" />
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 <body>
     <div class="page-loading" id="loadingOverlay"><div class="spinner"></div></div>
@@ -79,7 +83,7 @@
                     'py-4 bg-white/95'">
             
             <!-- Main Header -->
-            <div class="max-w-screen-xl mx-auto px-4 lg:px-8 ">
+            <div class="max-w-screen-xl mx-auto px-4 lg:px-8" x-data="app()" x-cloak>
                 <div class="flex items-center justify-between">
                     <!-- Logo -->
                     <div class="flex-shrink-0">
@@ -94,14 +98,14 @@
                     <!-- Desktop Navigation -->
                     <div class="hidden lg:flex lg:items-center lg:space-x-6 flex-1 justify-end">
                         <!-- Search Form -->
-                        <form @submit.prevent class="hidden lg:block mr-4 ">
+                        <!-- <form @submit.prevent class="hidden lg:block mr-4 ">
                             <div class="flex items-center gap-1 px-2 border rounded-lg bg-gray-50 border-gray-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                                 <input type="text" placeholder="Search" class="w-full px-2 py-2 text-gray-500 bg-transparent rounded-md outline-none">
                             </div>
-                        </form>
+                        </form> -->
                         
                         <!-- Navigation Links -->
                         <template x-for="(item, idx) in navigation" :key="idx">
@@ -109,14 +113,17 @@
                         </template>
 
                         <!-- <div class="flex-1 gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">                             -->
-                            <a href="javascript:void(0)" class="flex items-center justify-center gap-x-1 py-1 px-3 
-                                text-white font-medium 
-                                bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex">
-                                &nbsp; Sign in
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mt-1">
-                                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
+                        <a href="javascript:void(0)" 
+                            @click="scroll_to('home'); openModal();" 
+                            class="flex items-center justify-center gap-x-1 py-1 px-3 
+                            text-white font-medium 
+                            bg-sky-500 hover:bg-sky-400 
+                                active:bg-sky-600 rounded-full md:inline-flex">
+                            &nbsp; Sign in
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mt-1">
+                                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
                         <!-- </div> -->
                         
                         <!-- Avatar Menu -->
@@ -178,14 +185,14 @@
                     x-transition:leave-start="transform opacity-100 scale-100"
                     x-transition:leave-end="transform opacity-0 scale-95">
                     <!-- Search Form -->
-                    <form @submit.prevent class="mb-4">
+                    <!-- <form @submit.prevent class="mb-4">
                         <div class="flex items-center gap-1 px-2 border rounded-lg bg-gray-50 border-gray-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                             <input type="text" placeholder="Search" class="w-full px-2 py-2 text-gray-500 bg-transparent rounded-md outline-none">
                         </div>
-                    </form>
+                    </form> -->
                     
                     <!-- Mobile Navigation Links -->
                     <div class="space-y-2">
@@ -195,9 +202,11 @@
                         
                         <!-- Mobile Avatar Menu -->
                         <div class="pt-2 border-t border-gray-200">
-                            <a href="javascript:void(0)" class="flex items-center justify-center gap-x-1 py-1 px-3 
+                            <a href="javascript:void(0)" @click="scroll_to('home'); openModal();" 
+                                class="flex items-center justify-center gap-x-1 py-1 px-3 
                                 text-white font-medium 
-                                bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex">
+                                bg-sky-500 hover:bg-sky-400 
+                                active:bg-sky-600 rounded-full md:inline-flex">
                                 &nbsp; Sign in
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mt-1">
                                     <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
@@ -214,6 +223,199 @@
                                 <button class="block py-1 text-gray-600 hover:text-gray-900">Logout</button>
                             </div> -->
                         </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div 
+                    x-show="isOpen" 
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm 
+                        transition-opacity duration-300"
+                    x-transition:enter="ease-out duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="ease-in duration-200"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                >
+                    <div 
+                        @click.outside="closeModal()" 
+                        class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden transform transition-all duration-300"
+                        x-bind:class="isOpen ? 'scale-100' : 'scale-95'"
+                        x-transition:enter="ease-out duration-300"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="ease-in duration-200"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-95"
+                    >
+                        <!-- Tabs -->
+                        <div class="flex border-b">
+                            <button 
+                                @click="activeTab = 'login'" 
+                                :class="activeTab === 'login' ? 'bg-indigo-50 text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600 hover:text-gray-900'" 
+                                class="flex-1 py-4 font-medium text-center transition-colors duration-300"
+                            >
+                                <i class="fas fa-sign-in-alt mr-2"></i>Login
+                            </button>
+                            <button 
+                                @click="activeTab = 'register'" 
+                                :class="activeTab === 'register' ? 'bg-indigo-50 text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600 hover:text-gray-900'" 
+                                class="flex-1 py-4 font-medium text-center transition-colors duration-300"
+                            >
+                                <i class="fas fa-user-plus mr-2"></i>Register
+                            </button>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6">
+                            <!-- Login Form -->
+                            <div x-show="activeTab === 'login'" x-transition>
+                                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Welcome Back</h2>
+                                
+                                <!-- Social Login Buttons -->
+                                <div class="space-y-3 mb-6">
+                                    <button @click="socialLogin('google')" class="w-full flex items-center justify-center bg-white border border-gray-300 rounded-lg py-3 px-4 text-gray-700 font-medium hover:bg-gray-50 transition duration-300">
+                                        <i class="fab fa-google text-red-500 mr-3"></i>Continue with Google
+                                    </button>
+                                    <button @click="socialLogin('facebook')" class="w-full flex items-center justify-center bg-blue-600 text-white rounded-lg py-3 px-4 font-medium hover:bg-blue-700 transition duration-300">
+                                        <i class="fab fa-facebook-f mr-3"></i>Continue with Facebook
+                                    </button>
+                                    <button @click="socialLogin('twitter')" class="w-full flex items-center justify-center bg-black text-white rounded-lg py-3 px-4 font-medium hover:bg-gray-800 transition duration-300">
+                                        <i class="fab fa-twitter mr-3"></i>Continue with Twitter
+                                    </button>
+                                </div>
+                                
+                                <div class="flex items-center my-6">
+                                    <div class="flex-1 border-t border-gray-300"></div>
+                                    <span class="px-3 text-gray-500 text-sm">Or login with email</span>
+                                    <div class="flex-1 border-t border-gray-300"></div>
+                                </div>
+                                
+                                <!-- Email Login Form -->
+                                <form @submit.prevent="handleLogin()">
+                                    <div class="mb-4">
+                                        <label for="login-email" class="block text-gray-700 text-sm font-medium mb-2">Email Address</label>
+                                        <input 
+                                            type="email" 
+                                            id="login-email" 
+                                            x-model="loginForm.email"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-300"
+                                            placeholder="your@email.com"
+                                            required
+                                        >
+                                    </div>
+                                    <div class="mb-6">
+                                        <label for="login-password" class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                                        <input 
+                                            type="password" 
+                                            id="login-password" 
+                                            x-model="loginForm.password"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-300"
+                                            placeholder="••••••••"
+                                            required
+                                        >
+                                    </div>
+                                    <div class="flex items-center justify-between mb-4">
+                                        <label class="flex items-center text-sm text-gray-700">
+                                            <input type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <span class="ml-2">Remember me</span>
+                                        </label>
+                                        <a href="#" class="text-sm text-indigo-600 hover:text-indigo-800">Forgot password?</a>
+                                    </div>
+                                    <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+                                        Sign In
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Register Form -->
+                            <div x-show="activeTab === 'register'" x-transition>
+                                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Create Account</h2>
+                                
+                                <!-- Social Register Buttons -->
+                                <div class="space-y-3 mb-6">
+                                    <button @click="socialRegister('google')" class="w-full flex items-center justify-center bg-white border border-gray-300 rounded-lg py-3 px-4 text-gray-700 font-medium hover:bg-gray-50 transition duration-300">
+                                        <i class="fab fa-google text-red-500 mr-3"></i>Sign up with Google
+                                    </button>
+                                    <button @click="socialRegister('facebook')" class="w-full flex items-center justify-center bg-blue-600 text-white rounded-lg py-3 px-4 font-medium hover:bg-blue-700 transition duration-300">
+                                        <i class="fab fa-facebook-f mr-3"></i>Sign up with Facebook
+                                    </button>
+                                    <button @click="socialRegister('twitter')" class="w-full flex items-center justify-center bg-black text-white rounded-lg py-3 px-4 font-medium hover:bg-gray-800 transition duration-300">
+                                        <i class="fab fa-twitter mr-3"></i>Sign up with Twitter
+                                    </button>
+                                </div>
+                                
+                                <div class="flex items-center my-6">
+                                    <div class="flex-1 border-t border-gray-300"></div>
+                                    <span class="px-3 text-gray-500 text-sm">Or register with email</span>
+                                    <div class="flex-1 border-t border-gray-300"></div>
+                                </div>
+                                
+                                <!-- Email Register Form -->
+                                <form @submit.prevent="handleRegister()">
+                                    <div class="mb-4">
+                                        <label for="register-name" class="block text-gray-700 text-sm font-medium mb-2">Full Name</label>
+                                        <input 
+                                            type="text" 
+                                            id="register-name" 
+                                            x-model="registerForm.name"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-300"
+                                            placeholder="John Doe"
+                                            required
+                                        >
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="register-email" class="block text-gray-700 text-sm font-medium mb-2">Email Address</label>
+                                        <input 
+                                            type="email" 
+                                            id="register-email" 
+                                            x-model="registerForm.email"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-300"
+                                            placeholder="your@email.com"
+                                            required
+                                        >
+                                    </div>
+                                    <div class="mb-6">
+                                        <label for="register-password" class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                                        <input 
+                                            type="password" 
+                                            id="register-password" 
+                                            x-model="registerForm.password"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-300"
+                                            placeholder="••••••••"
+                                            required
+                                        >
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="flex items-center text-sm text-gray-700">
+                                            <input type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                            <span class="ml-2">I agree to the <a href="#" class="text-indigo-600 hover:text-indigo-800">Terms of Service</a> and <a href="#" class="text-indigo-600 hover:text-indigo-800">Privacy Policy</a></span>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+                                        Create Account
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toast Notification -->
+                <div 
+                    x-show="showToast" 
+                    x-transition:enter="transition ease-out duration-300 transform"
+                    x-transition:enter-start="translate-y-10 opacity-0"
+                    x-transition:enter-end="translate-y-0 opacity-100"
+                    x-transition:leave="transition ease-in duration-200 transform"
+                    x-transition:leave-start="translate-y-0 opacity-100"
+                    x-transition:leave-end="translate-y-10 opacity-0"
+                    class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg z-50"
+                >
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                        <span x-text="toastMessage"></span>
                     </div>
                 </div>
             </div>
@@ -541,7 +743,7 @@
                         <ul class="inline-grid gap-y-8 gap-x-14 grid-cols-2">
                             <template x-for="(item, idx) in stats" :key="idx">
                                 <li>
-                                    <h4 class="text-4xl text-indigo-600 font-semibold" x-text="item.data"></h4>
+                                    <h4 class="text-4xl text-sky-500 font-semibold" x-text="item.data"></h4>
                                     <p class="mt-3 font-medium" x-text="item.title"></p>
                                 </li>
                             </template>
@@ -584,7 +786,7 @@
                     <ul class="grid gap-8 sm:grid-cols-2">
                         <template x-for="(item, idx) in features" :key="idx">
                             <li class="flex gap-x-4">
-                                <div class="flex-none w-12 h-12 bg-gray-700 text-cyan-400 rounded-lg flex items-center justify-center">
+                                <div class="flex-none w-12 h-12 bg-sky-500  rounded-lg flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" :d="item.icon" />
                                     </svg>
@@ -603,13 +805,10 @@
             <div class="absolute inset-0 max-w-md mx-auto h-72 blur-[118px]" style="background: linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.26) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)"></div>
         </section>   
 
-        <section id="cta" x-data="{ stats: [
-                { data: '35K', title: 'Customers' },
-                { data: '40%', title: 'Mataram' },
-                { data: '25%', title: 'Lombok Timur' },
-                { data: '35%', title: 'Lombok Barat' }                
-            ] }" class="py-14 bg-center bg-cover bg-no-repeat bg-fixed" 
-                style="background-image: url('https://picsum.photos/1920/1920/?random');">
+        <section id="cta"             
+            class="py-14 bg-center bg-cover bg-no-repeat bg-fixed" 
+                style="background-image: url('https://picsum.photos/1920/1920/?random');" 
+                x-data="{open : false}">
             <div class="max-w-screen-xl mx-auto px-4 text-gray-600 gap-x-12 items-start justify-between lg:flex md:px-8">
                 
                 <div class="mt-6 gap-12 sm:mt-0 md:flex lg:block">
@@ -630,8 +829,9 @@
                             ke tamu undangan Anda
                         </p>
                     </div>
-                    <div class=" py-7">
+                    <div class="py-7">
                         <button
+                        @click="open = true"
                         class="flex items-center justify-center gap-x-2 py-2.5 px-4 mt-3 w-full text-sm text-white font-medium bg-sky-500 hover:bg-sky-400 active:bg-sky-600 duration-150 rounded-lg sm:mt-0 sm:w-auto cursor-pointer"
                         >
                             Pesan hari dan tanggal sekarang
@@ -648,6 +848,8 @@
                                 />
                             </svg>
                         </button>
+
+
                     </div>
 
                     <!-- <div class="flex-none mt-6 md:mt-0 lg:mt-6">
@@ -666,6 +868,138 @@
                 </div>
 
             </div>
+
+            <!-- Modal -->
+            <div 
+                x-data="{            
+                    name: '',                   
+                    errors: {},
+                    validateForm() {
+                        this.errors = {};
+                        if (!this.name) this.errors.name = 'Name is required';            
+                        return Object.keys(this.errors).length === 0;
+                    },
+                    submitForm() {
+                        if (this.validateForm()) {
+                            // Simulate form submission
+                            setTimeout(() => {
+                                alert('Form submitted successfully!');
+                                this.open = false;
+                                this.resetForm();
+                            }, 500);
+                        }
+                    },
+                    resetForm() {
+                        this.name = '';
+                        this.datetime = '';                        
+                        this.message = '';
+                        this.errors = {};
+                    }
+                }"
+                x-show="open"
+                x-cloak
+                class="fixed inset-0 z-50 overflow-y-auto"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+            >
+                <!-- Overlay -->
+                <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+                
+                <!-- Modal container -->
+                <div class="flex items-center justify-center min-h-screen p-4">
+                    <!-- Modal content -->
+                    <div 
+                        class="relative bg-white rounded-xl shadow-2xl max-w-md w-full p-6"
+                        @click.outside="open = false"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-95"
+                    >
+                        <!-- Header -->
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Booking Tanggal Acara</h2>
+                            <button 
+                                @click="open = false" 
+                                class="text-gray-500 hover:text-gray-700 transition duration-200"
+                            >
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Form -->
+                        <form @submit.prevent="submitForm()" class="space-y-4">
+                            <!-- Name field -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-user text-gray-400"></i>
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        id="name" 
+                                        x-model="name"
+                                        required
+                                        :class="errors.name ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-indigo-500'"
+                                        class="pl-10 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 transition duration-200"
+                                        placeholder="Masukkan Nama Anda"
+                                    >
+                                </div>
+                                <p x-show="errors.name" x-text="errors.name" class="text-red-500 text-xs mt-1"></p>
+                            </div>                                        
+
+                            <!-- class="flex flex-col space-y-2" -->
+                            <div>
+                                <label for="datetime" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Pilih Tanggal & Waktu Acara</label>
+                                <input
+                                    type="datetime-local"
+                                    id="datetime"
+                                    name="datetime"
+                                    required
+                                    class="w-full mt-2  px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                />
+                            </div>
+
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Pesan Anda
+                                </label>                        
+                                <textarea 
+                                    id="message"
+                                    name="message"
+                                    required 
+                                    placeholder="Type your message here..."
+                                    class="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border border-gray-300 focus:border-cyan-500 shadow-sm rounded-lg transition-colors"                                                
+                                >Saya akan mengadakan acara pada tanggal tersebut, apakah masih tersedia?</textarea>
+                            </div>
+                            
+                            <!-- Submit button -->
+                            <div class="pt-2">
+                                <button 
+                                    type="submit"
+                                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-lg transition duration-200 flex items-center justify-center cursor-pointer"
+                                >
+                                    <i class="fas fa-user-plus mr-2"></i> Kirim
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Footer -->
+                        <!-- <div class="mt-6 text-center text-sm text-gray-500">
+                            <p>Already have an account? <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Sign in</a></p>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <section id="gallery" x-data="{ posts: [
@@ -724,7 +1058,7 @@
                             <button @click="openModal(index)" class="w-full cursor-pointer" >
                                 <img :src="item.img" loading="lazy" :alt="item.title" class="w-full rounded-lg transition-transform duration-300 group-hover:scale-105" />
                                 <div class="mt-3 space-y-2">
-                                    <span class="block text-indigo-600 text-sm" x-text="item.date"></span>
+                                    <span class="block text-sky-500 text-sm" x-text="item.date"></span>
                                     <h3 class="text-lg text-gray-500 duration-150 group-hover:text-indigo-300 font-semibold" x-text="item.title">
                                     </h3>
                                     <p class="text-gray-300 text-sm duration-150 group-hover:text-gray-500" x-text="item.desc"></p>
@@ -877,7 +1211,7 @@
             <section class="py-28">
                 <div class="max-w-screen-xl mx-auto px-4 md:px-8">
                     <div class="max-w-3xl mx-auto text-center">
-                        <h3 class="text-indigo-600 font-semibold pb-6">Apa Kata Customer Kami?</h3>
+                        <h3 class="text-sky-500 font-semibold pb-6">Apa Kata Customer Kami?</h3>
                         <template x-for="(testimonial, index) in testimonials" :key="index">
                             <div x-show="currentTestimonial === index"                                                                 
                             >
@@ -902,7 +1236,7 @@
                                 <li>
                                     <button 
                                         class="w-2.5 h-2.5 rounded-full duration-150 ring-offset-2 ring-indigo-600 focus:ring"
-                                        :class="{ 'bg-indigo-600': currentTestimonial === index, 'bg-gray-300': currentTestimonial !== index }"
+                                        :class="{ 'bg-sky-500': currentTestimonial === index, 'bg-gray-300': currentTestimonial !== index }"
                                         @click="currentTestimonial = index"
                                     ></button>
                                 </li>
@@ -914,6 +1248,8 @@
         </section>
 
         <section id="price" x-data="{ 
+            open : false,
+            idx : 0,
             plans: [
                 {
                     name: 'Paket A1',
@@ -1015,7 +1351,7 @@
             <div class="relative py-28 px-4 sm:px-6 lg:px-8 bg-gray-900 sm:px-4 md:px-8 ">
                 <!-- Header Section -->
                 <div class="max-w-xl mx-auto text-center space-y-3">
-                    <h3 class="text-cyan-400 font-semibold">Daftar Harga</h3>
+                    <h3 class="text-sky-500 font-semibold">Daftar Harga</h3>
                     <h2 class="text-3xl font-semibold sm:text-4xl text-white">
                         Pilih Paket Sesuai kebutuhan Anda
                     </h2>
@@ -1028,22 +1364,24 @@
                 <div class="mt-16 max-w-screen-xl mx-auto  grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 px-8">
                     <template x-for="(item, index) in plans" :key="index">
                         <div class="relative flex flex-col h-full rounded-xl border-2  transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-                            :class="item.isMostPop ? 'border-cyan-400 bg-gray-800' : 'border-gray-700 bg-gray-900'">
+                            :class="item.isMostPop ? 'border-sky-500 bg-gray-800' : 'border-gray-700 bg-gray-900'">
                             
                             <!-- Popular Badge -->
-                            <div x-show="item.isMostPop" class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-cyan-400 text-gray-900 px-4 py-1 rounded-full text-sm font-semibold">
+                            <div x-show="item.isMostPop" class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-sky-500 text-gray-900 px-4 py-1 rounded-full text-sm font-semibold">
                                 Most Popular
                             </div>
                             
                             <!-- Plan Header -->
                             <div class="p-6 border-b border-gray-700">
                                 <span class="text-white font-medium" x-text="item.name"></span>
-                                <div class="text-cyan-400 text-3xl font-semibold mt-2">
+                                <div class="text-sky-500 text-3xl font-semibold mt-2">
                                     <span x-text="`Rp.${item.price}rb`"></span>
                                     <span class="text-xl font-normal">/pax</span>
                                 </div>
                                 <p class="text-gray-400 mt-2" x-text="item.desc"></p>
-                                <button class="mt-4 w-full py-3 px-4 rounded-lg font-semibold text-sm text-white bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700 transition-colors duration-200 cursor-pointer">
+                                <button 
+                                    @click="open = true, idx = index"
+                                    class="mt-4 w-full py-3 px-4 rounded-lg font-semibold text-sm text-white bg-sky-500 hover:bg-sky-600 active:bg-sky-700 transition-colors duration-200 cursor-pointer">
                                     Pilih
                                 </button>
                             </div>
@@ -1053,7 +1391,7 @@
                                 <template x-for="(feature, fIndex) in item.features" :key="fIndex">
                                     <li class="flex items-center gap-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" 
-                                            :class="item.isMostPop ? 'text-cyan-400' : 'text-gray-400'"
+                                            :class="item.isMostPop ? 'text-sky-500' : 'text-gray-400'"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                         </svg>
@@ -1065,6 +1403,155 @@
                     </template>
                 </div>
             </div>
+
+
+            <!-- Modal -->
+            <div 
+                x-data="{            
+                    name: '',                   
+                    errors: {},
+                    validateForm() {
+                        this.errors = {};
+                        if (!this.name) this.errors.name = 'Name is required';            
+                        return Object.keys(this.errors).length === 0;
+                    },
+                    submitForm() {
+                        if (this.validateForm()) {
+                            // Simulate form submission
+                            setTimeout(() => {
+                                alert('Form submitted successfully!');
+                                this.open = false;
+                                this.resetForm();
+                            }, 500);
+                        }
+                    },
+                    resetForm() {
+                        this.name = '';
+                        this.datetime = '';                        
+                        this.message = '';
+                        this.errors = {};
+                    }
+                }"
+                x-show="open"
+                x-cloak
+                class="fixed inset-0 z-50 overflow-y-auto"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+            >
+                <!-- Overlay -->
+                <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+                
+                <!-- Modal container -->
+                <div class="flex items-center justify-center min-h-screen p-4">
+                    <!-- Modal content -->
+                    <div 
+                        class="relative bg-white rounded-xl shadow-2xl max-w-md w-full p-6"
+                        @click.outside="open = false"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-95"
+                    >
+                        <!-- Header -->
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Pilih <span class="font-extrabold" x-text="plans[idx]['name']"></span></h2>
+                            <button 
+                                @click="open = false" 
+                                class="text-gray-500 hover:text-gray-700 transition duration-200 cursor-pointer"
+                            >
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Form -->
+                        <form @submit.prevent="submitForm()" class="space-y-4">
+                            <!-- Name field -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-user text-gray-400"></i>
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        id="name" 
+                                        x-model="name"
+                                        required
+                                        :class="errors.name ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-indigo-500'"
+                                        class="pl-10 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 transition duration-200"
+                                        placeholder="Masukkan Nama Anda"
+                                    >
+                                </div>
+                                <p x-show="errors.name" x-text="errors.name" class="text-red-500 text-xs mt-1"></p>
+                            </div>                                        
+
+                            <!-- class="flex flex-col space-y-2" -->
+                            <div>
+                                <label for="datetime" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Pilih Tanggal & Waktu Acara</label>
+                                <input
+                                    type="datetime-local"
+                                    id="datetime"
+                                    name="datetime"
+                                    required
+                                    class="w-full mt-2  px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                />
+                            </div>
+
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Pesan Anda
+                                </label>                        
+                                <!-- <textarea 
+                                    id="message"
+                                    name="message"
+                                    required 
+                                    placeholder="Type your message here..."
+                                    class="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border border-gray-300 focus:border-cyan-500 shadow-sm rounded-lg transition-colors"                                                
+                                >Saya akan mengadakan acara pada tanggal tersebut \r\n Apakah masih tersedia?
+                                <span class="font-extrabold" x-text="plans[idx]['name']"></span>
+                                </textarea> -->
+                                <div contenteditable="true"
+                                    class="w-full mt-2 px-3 py-2 bg-transparent outline-none border border-gray-300 focus:border-cyan-500 shadow-sm rounded-lg transition-colors"
+                                >Saya akan mengadakan acara pada tanggal tersebut, apakah masih tersedia?<br>
+                                <span class="font-extrabold" x-text="plans[idx]['name']"></span> :<br>
+                                <span x-text="plans[idx]['desc']"></span><br>                                
+                                <span class="font-extrabold">Menu :</span><br>                       
+                                <span x-text="plans[idx]['features']"></span><br>
+                                <ul>
+                                    <template x-for="line in plans[idx]['features'].split(',')" :key="line">
+                                        <li x-text="line"></li>
+                                    </template>
+                                </ul>
+
+                                </div>
+                            </div>
+                            
+                            <!-- Submit button -->
+                            <div class="pt-2">
+                                <button 
+                                    type="submit"
+                                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-lg transition duration-200 flex items-center justify-center cursor-pointer"
+                                >
+                                    <i class="fas fa-user-plus mr-2"></i> Kirim
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Footer -->
+                        <!-- <div class="mt-6 text-center text-sm text-gray-500">
+                            <p>Already have an account? <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Sign in</a></p>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <section id="faq"
@@ -1151,7 +1638,7 @@
             <div class="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Header Section -->
                 <div class="max-w-lg space-y-3 mx-auto text-center mb-12">
-                    <h3 class="text-cyan-400 font-semibold">
+                    <h3 class="text-sky-500 font-semibold">
                         Kontak Kami
                     </h3>
                     <p class="text-white text-3xl font-semibold sm:text-4xl">
@@ -1161,6 +1648,9 @@
                         Kami senang mendapat kabar dari Anda, silahkan mengisi form di bawah ini
                     </p>
                 </div>
+
+                
+
                 
                 <!-- Two Column Layout -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -1206,7 +1696,7 @@
                                 ></textarea>
                             </div>
                             <button
-                                class="w-full px-4 py-3 text-white font-medium bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700 rounded-lg duration-150 transition-colors"
+                                class="w-full px-4 py-3 text-white font-medium bg-sky-500 hover:bg-sky-600 active:bg-sky-700 rounded-lg duration-150 transition-colors"
                             >
                                 Kirim
                             </button>
@@ -1230,19 +1720,19 @@
                             <h3 class="text-xl font-semibold text-white mb-4">Informasi Kontak</h3>
                             <div class="space-y-3">
                                 <div class="flex items-start">
-                                    <svg class="w-5 h-5 text-cyan-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-5 h-5 text-sky-500 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
                                     </svg>
                                     <span class="text-gray-300">123 Business Avenue, Suite 100, City, State 12345</span>
                                 </div>
                                 <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-cyan-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-5 h-5 text-sky-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
                                     </svg>
                                     <span class="text-gray-300">+1 (555) 123-4567</span>
                                 </div>
                                 <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-cyan-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-5 h-5 text-sky-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
                                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
                                     </svg>
@@ -1374,7 +1864,7 @@
             </div>
 
             <div class="mt-8 py-8 px-3 md:text-center text-gray-300 bg-gray-900">
-                <p>© 2025 Authbox Inc. All rights reserved.</p>
+                <p>© 2025 <a href="https://authbox.web.id" target="_blank">Authbox Inc.</a> All rights reserved.</p>
             </div>
         </div>
         <style scoped>
@@ -1396,5 +1886,83 @@
     <script src="hover-click.js"></script>  
     <script src="splash-screen.js"></script>
     <script src="slideshow-main.js"></script>
+
+    <script>
+        function app() {
+            return {
+                isOpen: false,
+                activeTab: 'login',
+                showToast: false,
+                toastMessage: '',
+                loginForm: {
+                    email: '',
+                    password: ''
+                },
+                registerForm: {
+                    name: '',
+                    email: '',
+                    password: ''
+                },
+                openModal() {
+                    this.isOpen = true;
+                },
+                closeModal() {
+                    this.isOpen = false;
+                    // Reset forms when closing
+                    this.loginForm = { email: '', password: '' };
+                    this.registerForm = { name: '', email: '', password: '' };
+                },
+                socialLogin(provider) {
+                    this.showNotification(`Logging in with ${provider}...`);
+                    // Simulate API call
+                    setTimeout(() => {
+                        this.showNotification(`Successfully logged in with ${provider}!`);
+                        this.closeModal();
+                    }, 1500);
+                },
+                socialRegister(provider) {
+                    this.showNotification(`Registering with ${provider}...`);
+                    // Simulate API call
+                    setTimeout(() => {
+                        this.showNotification(`Successfully registered with ${provider}!`);
+                        this.closeModal();
+                    }, 1500);
+                },
+                handleLogin() {
+                    if (!this.loginForm.email || !this.loginForm.password) {
+                        this.showNotification('Please fill in all fields');
+                        return;
+                    }
+                    
+                    this.showNotification('Logging in...');
+                    // Simulate API call
+                    setTimeout(() => {
+                        this.showNotification('Login successful!');
+                        this.closeModal();
+                    }, 1500);
+                },
+                handleRegister() {
+                    if (!this.registerForm.name || !this.registerForm.email || !this.registerForm.password) {
+                        this.showNotification('Please fill in all fields');
+                        return;
+                    }
+                    
+                    this.showNotification('Creating account...');
+                    // Simulate API call
+                    setTimeout(() => {
+                        this.showNotification('Account created successfully!');
+                        this.closeModal();
+                    }, 1500);
+                },
+                showNotification(message) {
+                    this.toastMessage = message;
+                    this.showToast = true;
+                    setTimeout(() => {
+                        this.showToast = false;
+                    }, 3000);
+                }
+            }
+        }
+    </script>    
 </body>
 </html>
